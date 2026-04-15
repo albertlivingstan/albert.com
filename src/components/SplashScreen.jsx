@@ -37,16 +37,8 @@ const SplashScreen = ({ onComplete }) => {
             animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
             exit={{ opacity: 0, scale: 1.5, filter: 'blur(10px)', transition: { duration: 0.5 } }}
             transition={{ duration: 1, ease: "easeOut" }}
-            style={{
-              fontSize: '5rem',
-              fontWeight: 900,
-              color: 'var(--accent-color)',
-              textShadow: '0 0 30px var(--accent-glow)',
-              letterSpacing: '2px',
-              fontFamily: 'monospace'
-            }}
           >
-            &lt;/&gt;
+            <img src="/logo.png" alt="Albert Logo" style={{ height: '120px', filter: 'drop-shadow(0 0 20px var(--accent-glow))' }} />
           </motion.div>
         </motion.div>
       )}

@@ -81,8 +81,8 @@ const Home = () => {
         animate="visible"
         variants={navFadeDown}
       >
-        <motion.div whileHover={{ scale: 1.05 }} className="nav-brand">
-          Albert<span>.</span>
+        <motion.div whileHover={{ scale: 1.05 }} className="nav-brand" style={{ display: 'flex', alignItems: 'center' }}>
+          <img src="/logo.png" alt="Albert Logo" style={{ height: '40px', filter: 'drop-shadow(0 0 5px var(--accent-glow))' }} />
         </motion.div>
         <div className="nav-links">
           {['home', 'about', 'skills', 'projects', 'certificates'].map((item, i) => (
