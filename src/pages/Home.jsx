@@ -104,37 +104,49 @@ const Home = () => {
 
       {/* Hero Section */}
       <section id="home" className="section hero">
-        <motion.div initial="hidden" animate="visible" variants={staggerContainer} style={{ y: heroY, opacity: heroOpacity }}>
-          <motion.p variants={fadeUp} className="hero-subtitle">Welcome to my portfolio</motion.p>
-          <motion.h1 variants={fadeUp} className="hero-title">
-            Hi, I'm Albert Livingstan<br/>
-            <motion.span 
-               key={titleIndex}
-               initial={{ opacity: 0, y: 20 }}
-               animate={{ opacity: 1, y: 0 }}
-               exit={{ opacity: 0, y: -20 }}
-               transition={{ duration: 0.5 }}
-               style={{ display: 'inline-block' }}
-            >
-              {titles[titleIndex]}
-            </motion.span>
-          </motion.h1>
-          <motion.p variants={fadeUp} className="hero-desc">
-            B.Tech Computer Science and Engineering Student with a strong passion for web development, AI, and IoT-based systems. I build real-world projects that solve practical problems.
-          </motion.p>
-          <motion.div variants={fadeUp} className="hero-buttons">
-            <Magnetic>
-              <button className="btn btn-primary" onClick={() => scrollTo('projects')}>
-                View My Work <FaChevronRight size={20} />
-              </button>
-            </Magnetic>
-            <Magnetic>
-              <button className="btn btn-secondary" onClick={() => scrollTo('contact')}>
-                Contact Me
-              </button>
-            </Magnetic>
+        <div className="hero-content-wrapper">
+          <motion.div className="hero-text" initial="hidden" animate="visible" variants={staggerContainer} style={{ y: heroY, opacity: heroOpacity }}>
+            <motion.p variants={fadeUp} className="hero-subtitle">Welcome to my portfolio</motion.p>
+            <motion.h1 variants={fadeUp} className="hero-title">
+              Hi, I'm Albert Livingstan<br/>
+              <motion.span 
+                 key={titleIndex}
+                 initial={{ opacity: 0, y: 20 }}
+                 animate={{ opacity: 1, y: 0 }}
+                 exit={{ opacity: 0, y: -20 }}
+                 transition={{ duration: 0.5 }}
+                 style={{ display: 'inline-block' }}
+              >
+                {titles[titleIndex]}
+              </motion.span>
+            </motion.h1>
+            <motion.p variants={fadeUp} className="hero-desc">
+              B.Tech Computer Science and Engineering Student with a strong passion for web development, AI, and IoT-based systems. I build real-world projects that solve practical problems.
+            </motion.p>
+            <motion.div variants={fadeUp} className="hero-buttons">
+              <Magnetic>
+                <button className="btn btn-primary" onClick={() => scrollTo('projects')}>
+                  View My Work <FaChevronRight size={20} />
+                </button>
+              </Magnetic>
+              <Magnetic>
+                <button className="btn btn-secondary" onClick={() => scrollTo('contact')}>
+                  Contact Me
+                </button>
+              </Magnetic>
+            </motion.div>
           </motion.div>
-        </motion.div>
+          
+          <motion.div 
+            className="hero-image-container"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1, delay: 0.2, ease: "easeOut" }}
+          >
+            <div className="hero-image-glow"></div>
+            <img src="/me.jpg" alt="Albert Livingstan" className="hero-image" onError={(e) => { e.target.src = 'https://via.placeholder.com/400x500?text=Add+me.jpg+in+public' }} />
+          </motion.div>
+        </div>
       </section>
 
       {/* About Section */}
