@@ -220,5 +220,19 @@ export const projectsData = [
     ],
     video: "1182855681",
     tags: ['DevOps', 'Automation']
+  },
+  {
+    id: 'SolarAQI',
+    title: 'SolarAQI',
+    desc: 'I developed SolarAQI, a web application that combines real-time air quality monitoring with solar energy insights using interactive geospatial data.',
+    mainImg: 'images/solar/Screenshot 2026-04-22 at 1.47.01 PM.png',
+    images: [
+      "images/solar/Screenshot 2026-04-22 at 12.29.21 PM.png",
+      "images/solar/Screenshot 2026-04-22 at 1.48.06 PM.png",
+      "images/solar/Screenshot 2026-04-22 at 1.48.50 PM.png",
+      "images/solar/Screenshot 2026-04-22 at 1.49.17 PM.png"
+    ],
+    video: "1185422709",
+    tags: ['SolarAQI', 'Automation']
   }
 ];
