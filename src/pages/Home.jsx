@@ -30,15 +30,15 @@ const navFadeDown = {
 const Home = () => {
   const [activeSection, setActiveSection] = useState('home');
   const [selectedProject, setSelectedProject] = useState(null);
-  
+
   // Typing Effect State
   const [titleIndex, setTitleIndex] = useState(0);
   const titles = ["Full Stack Developer", "AI Enthusiast", "IoT Developer", "Creative Engine"];
-  
+
   const { scrollY } = useScroll();
   const heroY = useTransform(scrollY, [0, 500], [0, 150]);
   const heroOpacity = useTransform(scrollY, [0, 300], [1, 0]);
-  
+
   useEffect(() => {
     const interval = setInterval(() => {
       setTitleIndex((prev) => (prev + 1) % titles.length);
@@ -75,7 +75,7 @@ const Home = () => {
 
   return (
     <>
-      <motion.nav 
+      <motion.nav
         className="navbar"
         initial="hidden"
         animate="visible"
@@ -86,8 +86,8 @@ const Home = () => {
         </motion.div>
         <div className="nav-links">
           {['home', 'about', 'skills', 'projects', 'certificates'].map((item, i) => (
-            <motion.span 
-              key={item} 
+            <motion.span
+              key={item}
               className={`nav-link ${activeSection === item ? 'active' : ''}`}
               onClick={() => scrollTo(item)}
               whileHover={{ y: -3, color: 'var(--accent-color)' }}
@@ -108,14 +108,14 @@ const Home = () => {
           <motion.div className="hero-text" initial="hidden" animate="visible" variants={staggerContainer} style={{ y: heroY, opacity: heroOpacity }}>
             <motion.p variants={fadeUp} className="hero-subtitle">Welcome to my portfolio</motion.p>
             <motion.h1 variants={fadeUp} className="hero-title">
-              Hi, I'm Albert Livingstan<br/>
-              <motion.span 
-                 key={titleIndex}
-                 initial={{ opacity: 0, y: 20 }}
-                 animate={{ opacity: 1, y: 0 }}
-                 exit={{ opacity: 0, y: -20 }}
-                 transition={{ duration: 0.5 }}
-                 style={{ display: 'inline-block' }}
+              Hi, I'm Albert Livingstan<br />
+              <motion.span
+                key={titleIndex}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.5 }}
+                style={{ display: 'inline-block' }}
               >
                 {titles[titleIndex]}
               </motion.span>
@@ -136,15 +136,15 @@ const Home = () => {
               </Magnetic>
             </motion.div>
           </motion.div>
-          
-          <motion.div 
+
+          <motion.div
             className="hero-image-container"
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1, delay: 0.2, ease: "easeOut" }}
           >
             <div className="hero-image-glow"></div>
-            <img src="/me.jpg" alt="Albert Livingstan" className="hero-image" onError={(e) => { e.target.src = 'https://via.placeholder.com/400x500?text=Add+me.jpg+in+public' }} />
+            <img src="public/Albert.svg" alt="Albert Livingstan" className="hero-image" onError={(e) => { e.target.src = 'https://via.placeholder.com/400x500?text=Add+me.jpg+in+public' }} />
           </motion.div>
         </div>
       </section>
@@ -160,7 +160,7 @@ const Home = () => {
           </motion.div>
         </motion.div>
       </section>
-      
+
       <Marquee text="INNOVATION • ENGINEERING • ARTIFICIAL INTELLIGENCE • IOT ARCHITECTURE" />
 
       {/* Skills Section */}
@@ -196,12 +196,12 @@ const Home = () => {
           <motion.h2 variants={fadeUp} className="section-title">Featured <span>Projects</span></motion.h2>
           <div className="projects-grid">
             {projectsData.map((project, index) => (
-              <motion.div 
-                key={project.id} 
-                variants={fadeUp} 
+              <motion.div
+                key={project.id}
+                variants={fadeUp}
                 whileHover={{ y: -15, scale: 1.02 }}
-                className="glass project-card" 
-                onClick={() => setSelectedProject(project)} 
+                className="glass project-card"
+                onClick={() => setSelectedProject(project)}
                 style={{ cursor: 'pointer' }}
               >
                 <div className="project-img-wrapper">
@@ -267,7 +267,7 @@ const Home = () => {
                 <p style={{ color: 'var(--text-secondary)', margin: '1rem 0 2rem' }}>From institutions like Microsoft Azure, IBM, Cisco, and more.</p>
                 <Link to="/certificates" style={{ textDecoration: 'none' }}>
                   <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="btn btn-primary" style={{ display: 'inline-flex', width: 'auto' }}>
-                    View All Certificates <FaChevronRight size={16}/>
+                    View All Certificates <FaChevronRight size={16} />
                   </motion.div>
                 </Link>
               </motion.div>
@@ -287,7 +287,7 @@ const Home = () => {
           <motion.a variants={fadeUp} whileHover={{ y: -5, backgroundColor: 'var(--accent-color)', color: '#000' }} href="https://github.com/albertlivingstan" target="_blank" rel="noreferrer" className="social-link" title="GitHub"><FaGithub size={20} /></motion.a>
           <motion.a variants={fadeUp} whileHover={{ y: -5, backgroundColor: 'var(--accent-color)', color: '#000' }} href="https://www.linkedin.com/in/albert-livingstan-g" target="_blank" rel="noreferrer" className="social-link" title="LinkedIn"><FaLinkedin size={20} /></motion.a>
         </motion.div>
-        <p>© {new Date().getFullYear()} Albert Livingstan G | Built with React & Vite</p>
+        <p>© {new Date().getFullYear()} Albert Livingstan G </p>
       </footer>
 
       {/* Project Details Modal */}
