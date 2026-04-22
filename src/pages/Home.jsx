@@ -44,7 +44,7 @@ const Home = () => {
       setTitleIndex((prev) => (prev + 1) % titles.length);
     }, 3000);
     return () => clearInterval(interval);
-  }, []);
+  }, [titles.length]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -144,7 +144,7 @@ const Home = () => {
             transition={{ duration: 1, delay: 0.2, ease: "easeOut" }}
           >
             <div className="hero-image-glow"></div>
-            <img src="public/Albert.svg" alt="Albert Livingstan" className="hero-image" onError={(e) => { e.target.src = 'https://via.placeholder.com/400x500?text=Add+me.jpg+in+public' }} />
+            <img src="/Albert.svg" alt="Albert Livingstan" className="hero-image" onError={(e) => { e.target.src = 'https://via.placeholder.com/400x500?text=Add+me.jpg+in+public' }} />
           </motion.div>
         </div>
       </section>
@@ -195,7 +195,7 @@ const Home = () => {
         <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} variants={staggerContainer}>
           <motion.h2 variants={fadeUp} className="section-title">Featured <span>Projects</span></motion.h2>
           <div className="projects-grid">
-            {projectsData.map((project, index) => (
+            {projectsData.map((project) => (
               <motion.div
                 key={project.id}
                 variants={fadeUp}
