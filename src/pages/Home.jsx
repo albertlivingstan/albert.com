@@ -199,7 +199,7 @@ const Home = () => {
               { name: 'MySQL', icon: <SiMysql />, category: 'Database' },
               { name: 'n8n', icon: <SiN8N />, category: 'Automation' },
             ].map((skill, index) => (
-              <motion.div key={index} variants={fadeUp} whileHover={{ y: -10, scale: 1.05, borderColor: 'var(--accent-color)', boxShadow: '0 10px 30px rgba(56,189,248,0.1)' }} className="glass skill-card">
+              <motion.div key={index} variants={fadeUp} whileHover={{ y: -10, scale: 1.05, borderColor: 'var(--accent-color)', boxShadow: '0 10px 30px rgba(56, 189, 248, 0.15)' }} className="glass skill-card">
                 <motion.div initial={{ rotate: 0 }} whileHover={{ rotate: 360 }} transition={{ duration: 0.6 }} className="skill-icon">{skill.icon}</motion.div>
                 <div>
                   <h3 className="skill-name">{skill.name}</h3>
@@ -233,7 +233,7 @@ const Home = () => {
                   <p className="project-desc">{project.desc}</p>
                   <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginBottom: '1rem' }}>
                     {project.tags.map(tag => (
-                      <span key={tag} style={{ fontSize: '0.75rem', padding: '0.2rem 0.6rem', background: 'rgba(56,189,248,0.1)', color: 'var(--accent-color)', borderRadius: '12px' }}>
+                      <span key={tag} style={{ fontSize: '0.75rem', padding: '0.2rem 0.6rem', background: 'rgba(56, 189, 248, 0.15)', color: 'var(--accent-color)', borderRadius: '12px' }}>
                         {tag}
                       </span>
                     ))}

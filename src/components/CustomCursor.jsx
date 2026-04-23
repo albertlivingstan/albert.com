@@ -57,13 +57,13 @@ const CustomCursor = () => {
           left: 0,
           width: '40px',
           height: '40px',
-          border: '1px solid var(--accent-color)',
           borderRadius: '50%',
           pointerEvents: 'none',
           zIndex: 999998,
           translateX: '-50%',
           translateY: '-50%',
           backgroundColor: isHovering ? 'rgba(56, 189, 248, 0.1)' : 'transparent',
+          border: `1px solid ${isHovering ? 'var(--accent-color)' : 'rgba(255, 255, 255, 0.3)'}`,
           backdropFilter: isHovering ? 'blur(4px)' : 'none'
         }}
         animate={{
