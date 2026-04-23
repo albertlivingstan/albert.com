@@ -159,7 +159,7 @@ export const projectsData = [
     mainImg: 'images/fittrack/fittrackpr.png',
     images: [
       "images/fittrack/Screenshot 2025-10-30 at 8.05.56 PM.png",
-      "images/fittrack/Screenshot 2025-10-30 at 10.45.51 PM.png",
+      "images/fittrack/Screenshot 2025-10-30 at 10.45.31 PM.png",
       "images/fittrack/Screenshot 2025-10-30 at 10.45.51 PM.png",
       "images/fittrack/Web Development Internship.png"
     ],
