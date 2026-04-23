@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaTimes, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import { FaTimes, FaChevronLeft, FaChevronRight, FaGithub } from 'react-icons/fa';
 
 const ProjectModal = ({ project, onClose }) => {
   const [currentImgIndex, setCurrentImgIndex] = useState(0);
@@ -69,7 +69,27 @@ const ProjectModal = ({ project, onClose }) => {
           </button>
 
           <h2 style={{ color: 'var(--accent-color)', marginBottom: '1rem' }}>{project.title}</h2>
-          <p style={{ color: 'var(--text-secondary)', marginBottom: '2rem' }}>{project.desc}</p>
+          <div style={{ display: 'flex', alignItems: 'flex-start', gap: '1rem', marginBottom: '2rem', flexWrap: 'wrap' }}>
+            <p style={{ color: 'var(--text-secondary)', margin: 0, flexGrow: 1 }}>{project.desc}</p>
+            <a 
+              href={project.github || `https://github.com/albertlivingstan/${project.id}`} 
+              target="_blank" 
+              rel="noreferrer"
+              style={{ 
+                display: 'inline-flex', 
+                alignItems: 'center', 
+                gap: '0.5rem', 
+                textDecoration: 'none', 
+                padding: '0.5rem 1rem',
+                border: '1px solid var(--card-border)',
+                borderRadius: '8px',
+                color: 'var(--text-primary)',
+                background: 'var(--card-bg)'
+              }}
+            >
+              <FaGithub size={18} /> View Code
+            </a>
+          </div>
 
           {images.length > 0 && (
             <div style={{ position: 'relative', marginBottom: '2rem', background: '#000', borderRadius: '12px', overflow: 'hidden' }}>

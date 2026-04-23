@@ -154,6 +154,7 @@ export const certificates = [
 export const projectsData = [
   {
     id: 'fittrack',
+    github: 'https://github.com/albertlivingstan/FitTrack',
     title: 'FitTrack – Health & Fitness App',
     desc: 'Health & fitness tracking platform with reminders and full user authentication.',
     mainImg: 'images/fittrack/fittrackpr.png',
@@ -168,6 +169,7 @@ export const projectsData = [
   },
   {
     id: 'robot',
+    github: 'https://github.com/albertlivingstan/human_following_robot.git',
     title: 'Human Following Robot',
     desc: 'IoT-based robot that tracks humans using sensors and automated navigation.',
     mainImg: 'images/human/human follwing.png',
@@ -181,6 +183,7 @@ export const projectsData = [
   },
   {
     id: 'MVRbookme',
+    github: 'https://github.com/albertlivingstan/mvrbookmyshow.git',
     title: 'MVRbookme – Movie Ticket Booking System',
     desc: 'Movie ticket booking website with an integrated cab scheduling feature for on-time arrival.',
     mainImg: 'images/mvrbook me/1741959241378.jpeg',
@@ -194,6 +197,7 @@ export const projectsData = [
   },
   {
     id: 'MINDKRAFT26_CHESS_TOURNAMENT',
+    github: 'https://github.com/albertlivingstan/MINDKRAFT26_CHESS_TOURNAMENT',
     title: "MINDKRAFT'26 CHESS TOURNAMENT",
     desc: 'Complete chess tournament management system to handle participants and brackets.',
     mainImg: "images/MINDKRAFT'26_CHESS_TOURNAMENT/Screenshot 2026-03-07 at 11.05.22 PM.png",
@@ -209,6 +213,7 @@ export const projectsData = [
   },
   {
     id: 'ChaosOps',
+    github: 'https://github.com/albertlivingstan/ChaosOps.git',
     title: 'ChaosOps',
     desc: 'DevOps automation tools for streamlined CI/CD processes and infrastructure.',
     mainImg: 'images/ChaosOps/Screenshot 2026-04-14 at 9.29.39 AM.png',
@@ -223,6 +228,7 @@ export const projectsData = [
   },
   {
     id: 'SolarAQI',
+    github: 'https://github.com/albertlivingstan/AQI.git',
     title: 'SolarAQI',
     desc: 'I developed SolarAQI, a web application that combines real-time air quality monitoring with solar energy insights using interactive geospatial data.',
     mainImg: 'images/solar/Screenshot 2026-04-22 at 1.47.01 PM.png',

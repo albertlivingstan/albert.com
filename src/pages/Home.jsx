@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { FaGithub, FaLinkedin, FaEnvelope, FaChevronRight, FaExternalLinkAlt } from 'react-icons/fa';
-import { SiLeetcode, SiGeeksforgeeks, SiMongodb, SiExpress, SiReact, SiNodedotjs, SiPython } from 'react-icons/si';
-import { FaHackerrank, FaHtml5, FaCss3Alt, FaGitAlt } from 'react-icons/fa';
+import { FaGithub, FaLinkedin, FaEnvelope, FaChevronRight, FaExternalLinkAlt, FaDownload } from 'react-icons/fa';
+import { SiLeetcode, SiGeeksforgeeks, SiMongodb, SiExpress, SiReact, SiNodedotjs, SiPython, SiPytorch, SiTensorflow, SiTailwindcss, SiJavascript, SiTypescript, SiFastapi, SiFlask, SiDjango, SiPostgresql, SiMysql, SiN8N } from 'react-icons/si';
+import { FaHackerrank, FaHtml5, FaCss3Alt, FaGitAlt, FaRobot } from 'react-icons/fa';
 import ProjectModal from '../components/ProjectModal';
 import Magnetic from '../components/Magnetic';
 import Marquee from '../components/Marquee';
@@ -123,7 +123,7 @@ const Home = () => {
             <motion.p variants={fadeUp} className="hero-desc">
               B.Tech Computer Science and Engineering Student with a strong passion for web development, AI, and IoT-based systems. I build real-world projects that solve practical problems.
             </motion.p>
-            <motion.div variants={fadeUp} className="hero-buttons">
+            <motion.div variants={fadeUp} className="hero-buttons" style={{ flexWrap: 'wrap' }}>
               <Magnetic>
                 <button className="btn btn-primary" onClick={() => scrollTo('projects')}>
                   View My Work <FaChevronRight size={20} />
@@ -134,16 +134,29 @@ const Home = () => {
                   Contact Me
                 </button>
               </Magnetic>
+              <Magnetic>
+                <a href="/resume.pdf" download="Albert_Livingstan_Resume.pdf" className="btn btn-outline" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', textDecoration: 'none' }}>
+                  Resume <FaDownload size={18} />
+                </a>
+              </Magnetic>
             </motion.div>
           </motion.div>
 
           <motion.div
             className="hero-image-container"
             initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1, delay: 0.2, ease: "easeOut" }}
+            animate={{ opacity: 1, scale: 1, y: [0, -15, 0] }}
+            transition={{
+              opacity: { duration: 1, delay: 0.2, ease: "easeOut" },
+              scale: { duration: 1, delay: 0.2, ease: "easeOut" },
+              y: { duration: 4, repeat: Infinity, ease: "easeInOut" }
+            }}
           >
-            <div className="hero-image-glow"></div>
+            <motion.div
+              className="hero-image-glow"
+              animate={{ opacity: [0.15, 0.3, 0.15], scale: [1, 1.1, 1] }}
+              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+            ></motion.div>
             <img src="/Albert.svg" alt="Albert Livingstan" className="hero-image" onError={(e) => { e.target.src = 'https://via.placeholder.com/400x500?text=Add+me.jpg+in+public' }} />
           </motion.div>
         </div>
@@ -169,14 +182,22 @@ const Home = () => {
           <motion.h2 variants={fadeUp} className="section-title">My <span>Skills</span></motion.h2>
           <div className="skills-grid">
             {[
-              { name: 'React', icon: <SiReact />, category: 'Frontend' },
-              { name: 'HTML5', icon: <FaHtml5 />, category: 'Frontend' },
-              { name: 'CSS3', icon: <FaCss3Alt />, category: 'Frontend' },
-              { name: 'Node.js', icon: <SiNodedotjs />, category: 'Backend' },
-              { name: 'Express', icon: <SiExpress />, category: 'Backend' },
-              { name: 'MongoDB', icon: <SiMongodb />, category: 'Database' },
               { name: 'Python', icon: <SiPython />, category: 'AI/ML' },
-              { name: 'Git', icon: <FaGitAlt />, category: 'Tools' },
+              { name: 'PyTorch', icon: <SiPytorch />, category: 'AI/ML' },
+              { name: 'TensorFlow', icon: <SiTensorflow />, category: 'AI/ML' },
+              { name: 'NLP', icon: <FaRobot />, category: 'AI/ML' },
+              { name: 'React', icon: <SiReact />, category: 'Frontend' },
+              { name: 'Tailwind CSS', icon: <SiTailwindcss />, category: 'Frontend' },
+              { name: 'JavaScript', icon: <SiJavascript />, category: 'Frontend' },
+              { name: 'TypeScript', icon: <SiTypescript />, category: 'Frontend' },
+              { name: 'FastAPI', icon: <SiFastapi />, category: 'Backend' },
+              { name: 'Flask', icon: <SiFlask />, category: 'Backend' },
+              { name: 'Django', icon: <SiDjango />, category: 'Backend' },
+              { name: 'Node.js', icon: <SiNodedotjs />, category: 'Backend' },
+              { name: 'PostgreSQL', icon: <SiPostgresql />, category: 'Database' },
+              { name: 'MongoDB', icon: <SiMongodb />, category: 'Database' },
+              { name: 'MySQL', icon: <SiMysql />, category: 'Database' },
+              { name: 'n8n', icon: <SiN8N />, category: 'Automation' },
             ].map((skill, index) => (
               <motion.div key={index} variants={fadeUp} whileHover={{ y: -10, scale: 1.05, borderColor: 'var(--accent-color)', boxShadow: '0 10px 30px rgba(56,189,248,0.1)' }} className="glass skill-card">
                 <motion.div initial={{ rotate: 0 }} whileHover={{ rotate: 360 }} transition={{ duration: 0.6 }} className="skill-icon">{skill.icon}</motion.div>
@@ -217,7 +238,19 @@ const Home = () => {
                       </span>
                     ))}
                   </div>
-                  <motion.span whileHover={{ x: 5 }} className="project-link">View Details <FaExternalLinkAlt size={16} /></motion.span>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 'auto' }}>
+                    <motion.span whileHover={{ x: 5 }} className="project-link">View Details <FaExternalLinkAlt size={16} /></motion.span>
+                    <motion.a
+                      href={project.github || `https://github.com/albertlivingstan${project.id}`}
+                      target="_blank"
+                      rel="noreferrer"
+                      whileHover={{ scale: 1.1, color: 'var(--accent-color)' }}
+                      onClick={(e) => e.stopPropagation()}
+                      style={{ color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', gap: '0.3rem', textDecoration: 'none', fontSize: '0.9rem' }}
+                    >
+                      <FaGithub size={18} /> Code
+                    </motion.a>
+                  </div>
                 </div>
               </motion.div>
             ))}
