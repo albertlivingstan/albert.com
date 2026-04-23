@@ -158,9 +158,9 @@ export const projectsData = [
     desc: 'Health & fitness tracking platform with reminders and full user authentication.',
     mainImg: 'images/fittrack/fittrackpr.png',
     images: [
-      "images/fittrack/Screenshot 2025-10-30 at 8.05.56 PM.png",
+      "images/fittrack/Screenshot 2025-10-30 at 8.05.56 PM.png",
       "images/fittrack/Screenshot 2025-10-30 at 10.45.51 PM.png",
-      "images/fittrack/1767213388479.jpeg",
+      "images/fittrack/Screenshot 2025-10-30 at 10.45.51 PM.png",
       "images/fittrack/Web Development Internship.png"
     ],
     video: "1164942668",
@@ -198,11 +198,11 @@ export const projectsData = [
     desc: 'Complete chess tournament management system to handle participants and brackets.',
     mainImg: "images/MINDKRAFT'26_CHESS_TOURNAMENT/Screenshot 2026-03-07 at 11.05.22 PM.png",
     images: [
-      "images/MINDKRAFT'26_CHESS_TOURNAMENT/Screenshot 2026-03-18 at 12.48.10 PM.png",
-      "images/MINDKRAFT'26_CHESS_TOURNAMENT/Screenshot 2026-03-18 at 12.48.19 PM.png",
-      "images/MINDKRAFT'26_CHESS_TOURNAMENT/Screenshot 2026-03-18 at 12.48.43 PM.png",
-      "images/MINDKRAFT'26_CHESS_TOURNAMENT/Screenshot 2026-03-18 at 12.48.34 PM.png",
-      "images/MINDKRAFT'26_CHESS_TOURNAMENT/Screenshot 2026-03-18 at 12.48.51 PM.png"
+      "images/MINDKRAFT'26_CHESS_TOURNAMENT/Screenshot 2026-03-18 at 12.48.10 PM.png",
+      "images/MINDKRAFT'26_CHESS_TOURNAMENT/Screenshot 2026-03-18 at 12.48.19 PM.png",
+      "images/MINDKRAFT'26_CHESS_TOURNAMENT/Screenshot 2026-03-18 at 12.48.34 PM.png",
+      "images/MINDKRAFT'26_CHESS_TOURNAMENT/Screenshot 2026-03-18 at 12.48.43 PM.png",
+      "images/MINDKRAFT'26_CHESS_TOURNAMENT/Screenshot 2026-03-18 at 12.48.51 PM.png"
     ],
     video: "1171350769",
     tags: ['Web', 'Management']
