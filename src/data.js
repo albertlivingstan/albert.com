@@ -154,7 +154,7 @@ export const certificates = [
 export const projectsData = [
   {
     id: 'fittrack',
-    github: 'https://github.com/albertlivingstan/FitTrack',
+    github: 'https://github.com/albertlivingstan/Fitness-tracker.git',
     title: 'FitTrack – Health & Fitness App',
     desc: 'Health & fitness tracking platform with reminders and full user authentication.',
     mainImg: 'images/fittrack/fittrackpr.png',
