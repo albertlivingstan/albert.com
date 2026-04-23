@@ -182,10 +182,10 @@ const Home = () => {
           <motion.h2 variants={fadeUp} className="section-title">My <span>Skills</span></motion.h2>
           <div className="skills-grid">
             {[
-              { name: 'Python', icon: <SiPython />, category: 'AI/ML' },
-              { name: 'PyTorch', icon: <SiPytorch />, category: 'AI/ML' },
-              { name: 'TensorFlow', icon: <SiTensorflow />, category: 'AI/ML' },
-              { name: 'NLP', icon: <FaRobot />, category: 'AI/ML' },
+              { name: 'Python', icon: <SiPython />, category: 'CSE' },
+              { name: 'PyTorch', icon: <SiPytorch />, category: 'CSE' },
+              { name: 'TensorFlow', icon: <SiTensorflow />, category: 'CSE' },
+              { name: 'NLP', icon: <FaRobot />, category: 'CSE' },
               { name: 'React', icon: <SiReact />, category: 'Frontend' },
               { name: 'Tailwind CSS', icon: <SiTailwindcss />, category: 'Frontend' },
               { name: 'JavaScript', icon: <SiJavascript />, category: 'Frontend' },
