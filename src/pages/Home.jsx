@@ -8,6 +8,7 @@ import ProjectModal from '../components/ProjectModal';
 import Magnetic from '../components/Magnetic';
 import Marquee from '../components/Marquee';
 import { projectsData } from '../data';
+import { useLanguage } from '../context/LanguageContext';
 
 const fadeUp = {
   hidden: { opacity: 0, y: 60, scale: 0.95 },
@@ -28,13 +29,61 @@ const navFadeDown = {
 };
 
 const Home = () => {
+  const { language, toggleLanguage, t } = useLanguage();
   const [activeSection, setActiveSection] = useState('home');
   const [selectedProject, setSelectedProject] = useState(null);
   const [isToggled, setIsToggled] = useState(false);
+  const [formData, setFormData] = useState({ name: '', email: '', phone: '', message: '' });
+  const [errors, setErrors] = useState({});
+
+  const validateEmail = (email) => {
+    return String(email)
+      .toLowerCase()
+      .match(
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      );
+  };
+
+  const validatePhone = (phone) => {
+    // Basic regex allowing optional +, spaces, dashes, parentheses and at least 10 digits
+    const cleaned = phone.replace(/[\s\-()]/g, '');
+    return /^[+]?[0-9]{10,15}$/.test(cleaned);
+  };
+
+  const handleContactSubmit = (e) => {
+    e.preventDefault();
+    let newErrors = {};
+    if (!formData.name.trim()) newErrors.name = "Name is required.";
+    
+    if (!formData.email.trim()) {
+      newErrors.email = "Email is required.";
+    } else if (!validateEmail(formData.email)) {
+      newErrors.email = "Please enter a valid email address.";
+    }
+
+    if (!formData.phone.trim()) {
+      newErrors.phone = "Phone number is required.";
+    } else if (!validatePhone(formData.phone)) {
+      newErrors.phone = "Please enter a valid phone number (at least 10 digits).";
+    }
+
+    if (!formData.message.trim()) newErrors.message = "Message is required.";
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+
+    setErrors({});
+    const subject = encodeURIComponent(`Portfolio Contact from ${formData.name}`);
+    const body = encodeURIComponent(`Name: ${formData.name}\nEmail: ${formData.email}\nPhone: ${formData.phone}\n\nMessage:\n${formData.message}`);
+    window.location.href = `mailto:albertlivingstan73@gmail.com?subject=${subject}&body=${body}`;
+    setFormData({ name: '', email: '', phone: '', message: '' });
+  };
 
   // Typing Effect State
   const [titleIndex, setTitleIndex] = useState(0);
-  const titles = ["Full Stack Developer", "AI Enthusiast", "IoT Developer", "Creative Engine"];
+  const titles = t.hero.titles;
 
   const { scrollY } = useScroll();
   const heroY = useTransform(scrollY, [0, 500], [0, 150]);
@@ -97,9 +146,23 @@ const Home = () => {
               transition={{ delay: i * 0.1 + 0.5, ease: 'easeOut' }}
               style={{ color: activeSection === item ? 'var(--accent-color)' : '' }}
             >
-              {item.charAt(0).toUpperCase() + item.slice(1)}
+              {t.nav[item]}
             </motion.span>
           ))}
+          <select 
+            value={language} 
+            onChange={(e) => toggleLanguage(e.target.value)}
+            className="lang-select"
+          >
+            <option value="en">US English</option>
+            <option value="fr">Français</option>
+            <option value="de">Deutsch</option>
+            <option value="ja">日本語</option>
+            <option value="es">Español</option>
+            <option value="ar">العربية</option>
+            <option value="zh">中文</option>
+            <option value="pt">Português</option>
+          </select>
         </div>
       </motion.nav>
 
@@ -109,9 +172,9 @@ const Home = () => {
 
         <div className="hero-content-wrapper">
           <motion.div className="hero-text" initial="hidden" animate="visible" variants={staggerContainer} style={{ y: heroY, opacity: heroOpacity }}>
-            <motion.p variants={fadeUp} className="hero-subtitle">Welcome to my portfolio</motion.p>
+            <motion.p variants={fadeUp} className="hero-subtitle">{t.hero.subtitle}</motion.p>
             <motion.h1 variants={fadeUp} className="hero-title">
-              Hi, I'm Albert Livingstan<br />
+              {t.hero.hi}<br />
               <motion.span
                 key={titleIndex}
                 initial={{ opacity: 0, y: 20 }}
@@ -124,22 +187,22 @@ const Home = () => {
               </motion.span>
             </motion.h1>
             <motion.p variants={fadeUp} className="hero-desc">
-              B.Tech Computer Science and Engineering Student with a strong passion for web development, AI, and IoT-based systems. I build real-world projects that solve practical problems.
+              {t.hero.desc}
             </motion.p>
             <motion.div variants={fadeUp} className="hero-buttons" style={{ flexWrap: 'wrap' }}>
               <Magnetic>
                 <button className="btn btn-primary" onClick={() => scrollTo('projects')}>
-                  View My Work <FaChevronRight size={20} />
+                  {t.hero.viewWork} <FaChevronRight size={20} />
                 </button>
               </Magnetic>
               <Magnetic>
                 <button className="btn btn-secondary" onClick={() => scrollTo('contact')}>
-                  Contact Me
+                  {t.hero.contactMe}
                 </button>
               </Magnetic>
               <Magnetic>
                 <a href="/ALBERT_LIVINGSTANG_Resume.pdf" download="ALBERT_LIVINGSTANG_Resume.pdf" className="btn btn-outline" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', textDecoration: 'none' }}>
-                  Resume <FaDownload size={18} />
+                  {t.hero.resume} <FaDownload size={18} />
                 </a>
               </Magnetic>
             </motion.div>
@@ -170,15 +233,31 @@ const Home = () => {
             />
           </motion.div>
         </div>
+
+        {/* Scroll Indicator */}
+        <motion.div
+          animate={{ y: [0, 10, 0] }}
+          transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+          style={{ position: 'absolute', bottom: '30px', left: '50%', x: '-50%', opacity: 0.7, cursor: 'pointer' }}
+          onClick={() => scrollTo('about')}
+        >
+          <div style={{ width: '28px', height: '46px', border: '2px solid var(--text-secondary)', borderRadius: '15px', display: 'flex', justifyContent: 'center', paddingTop: '8px' }}>
+            <motion.div 
+              animate={{ y: [0, 15, 0], opacity: [1, 0, 1] }} 
+              transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }} 
+              style={{ width: '4px', height: '8px', background: 'var(--accent-color)', borderRadius: '2px' }}
+            />
+          </div>
+        </motion.div>
       </section>
 
       {/* About Section */}
       <section id="about" className="section">
         <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} variants={fadeUp}>
-          <h2 className="section-title">About <span>Me</span></h2>
+          <h2 className="section-title">{t.about.title} <span>{t.about.titleSpan}</span></h2>
           <motion.div whileHover={{ scale: 1.02 }} className="glass" style={{ padding: '2rem' }}>
             <p style={{ fontSize: '1.1rem', color: 'var(--text-secondary)', lineHeight: '1.8' }}>
-              I am a B.Tech Computer Science and Engineering student with a strong interest in web development, AI, and IoT-based systems. I enjoy building real-world projects that solve practical problems and enhance user experience. I am currently seeking placement opportunities where I can apply my skills and grow as a professional.
+              {t.about.desc}
             </p>
           </motion.div>
         </motion.div>
@@ -189,7 +268,7 @@ const Home = () => {
       {/* Skills Section */}
       <section id="skills" className="section">
         <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} variants={staggerContainer}>
-          <motion.h2 variants={fadeUp} className="section-title">My <span>Skills</span></motion.h2>
+          <motion.h2 variants={fadeUp} className="section-title">{t.skills.title} <span>{t.skills.titleSpan}</span></motion.h2>
           <div className="skills-grid">
             {[
               { name: 'Python', icon: <SiPython />, category: 'CSE' },
@@ -224,7 +303,7 @@ const Home = () => {
       {/* Projects Section */}
       <section id="projects" className="section">
         <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} variants={staggerContainer}>
-          <motion.h2 variants={fadeUp} className="section-title">Featured <span>Projects</span></motion.h2>
+          <motion.h2 variants={fadeUp} className="section-title">{t.projects.title} <span>{t.projects.titleSpan}</span></motion.h2>
           <div className="projects-grid">
             {projectsData.map((project) => (
               <motion.div
@@ -249,7 +328,7 @@ const Home = () => {
                     ))}
                   </div>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 'auto' }}>
-                    <motion.span whileHover={{ x: 5 }} className="project-link">View Details <FaExternalLinkAlt size={16} /></motion.span>
+                    <motion.span whileHover={{ x: 5 }} className="project-link">{t.projects.viewDetails} <FaExternalLinkAlt size={16} /></motion.span>
                     <motion.a
                       href={project.github || `https://github.com/albertlivingstan${project.id}`}
                       target="_blank"
@@ -258,7 +337,7 @@ const Home = () => {
                       onClick={(e) => e.stopPropagation()}
                       style={{ color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', gap: '0.3rem', textDecoration: 'none', fontSize: '0.9rem' }}
                     >
-                      <FaGithub size={18} /> Code
+                      <FaGithub size={18} /> {t.projects.code}
                     </motion.a>
                   </div>
                 </div>
@@ -274,7 +353,7 @@ const Home = () => {
           <div className="two-col-grid">
             {/* Coding Profiles */}
             <div>
-              <motion.h2 variants={fadeUp} className="section-title">Coding <span>Profiles</span></motion.h2>
+              <motion.h2 variants={fadeUp} className="section-title">{t.certificates.codingProfiles} <span>{t.certificates.codingProfilesSpan}</span></motion.h2>
               <motion.div variants={fadeUp} whileHover={{ x: 10 }} className="glass profile-card">
                 <div className="profile-icon"><SiLeetcode /></div>
                 <div className="profile-info" style={{ flexGrow: 1 }}>
@@ -303,14 +382,14 @@ const Home = () => {
 
             {/* Certificates Sidebar Promo */}
             <div>
-              <motion.h2 variants={fadeUp} className="section-title">Certifications</motion.h2>
+              <motion.h2 variants={fadeUp} className="section-title">{t.certificates.certifications}</motion.h2>
               <motion.div variants={fadeUp} whileHover={{ scale: 1.02 }} className="glass" style={{ padding: '2rem', textAlign: 'center' }}>
                 <motion.div animate={{ y: [0, -10, 0] }} transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }} style={{ fontSize: '3rem', marginBottom: '1rem', color: 'var(--accent-color)' }}>🏆</motion.div>
-                <h3>30+ Certifications Completed</h3>
-                <p style={{ color: 'var(--text-secondary)', margin: '1rem 0 2rem' }}>From institutions like Microsoft Azure, IBM, Cisco, and more.</p>
+                <h3>{t.certificates.completed}</h3>
+                <p style={{ color: 'var(--text-secondary)', margin: '1rem 0 2rem' }}>{t.certificates.fromInst}</p>
                 <Link to="/certificates" style={{ textDecoration: 'none' }}>
                   <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="btn btn-primary" style={{ display: 'inline-flex', width: 'auto' }}>
-                    View All Certificates <FaChevronRight size={16} />
+                    {t.certificates.viewAll} <FaChevronRight size={16} />
                   </motion.div>
                 </Link>
               </motion.div>
@@ -322,8 +401,64 @@ const Home = () => {
       {/* Footer / Contact */}
       <footer id="contact" className="footer">
         <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer} style={{ marginBottom: '2rem' }}>
-          <motion.h2 variants={fadeUp} style={{ fontSize: '2rem', marginBottom: '1rem', color: 'white' }}>Get In <span style={{ color: 'var(--accent-color)' }}>Touch</span></motion.h2>
-          <motion.p variants={fadeUp} style={{ maxWidth: '500px', margin: '0 auto' }}>Looking for placement opportunities. Feel free to reach out to me for any work or suggestions!</motion.p>
+          <motion.h2 variants={fadeUp} style={{ fontSize: '2rem', marginBottom: '1rem', color: 'white' }}>{t.contact.title} <span style={{ color: 'var(--accent-color)' }}>{t.contact.titleSpan}</span></motion.h2>
+          <motion.p variants={fadeUp} style={{ maxWidth: '500px', margin: '0 auto', marginBottom: '2rem' }}>{t.contact.desc}</motion.p>
+          
+          {/* Contact Form */}
+          <motion.form variants={fadeUp} onSubmit={handleContactSubmit} className="contact-form" style={{ maxWidth: '400px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            <div style={{ width: '100%', textAlign: 'left' }}>
+              <input 
+                type="text" 
+                placeholder={t.contact.namePlaceholder} 
+                value={formData.name} 
+                onChange={(e) => { setFormData({ ...formData, name: e.target.value }); if(errors.name) setErrors({...errors, name: null}); }} 
+                className={`contact-input ${errors.name ? 'error' : ''}`}
+              />
+              {errors.name && <span style={{ color: '#ef4444', fontSize: '0.8rem', marginLeft: '0.5rem' }}>{errors.name}</span>}
+            </div>
+            
+            <div style={{ width: '100%', textAlign: 'left' }}>
+              <input 
+                type="text" 
+                placeholder={t.contact.emailPlaceholder} 
+                value={formData.email} 
+                onChange={(e) => { setFormData({ ...formData, email: e.target.value }); if(errors.email) setErrors({...errors, email: null}); }} 
+                className={`contact-input ${errors.email ? 'error' : ''}`}
+              />
+              {errors.email && <span style={{ color: '#ef4444', fontSize: '0.8rem', marginLeft: '0.5rem' }}>{errors.email}</span>}
+            </div>
+
+            <div style={{ width: '100%', textAlign: 'left' }}>
+              <input 
+                type="tel" 
+                placeholder={t.contact.phonePlaceholder} 
+                value={formData.phone} 
+                onChange={(e) => { setFormData({ ...formData, phone: e.target.value }); if(errors.phone) setErrors({...errors, phone: null}); }} 
+                className={`contact-input ${errors.phone ? 'error' : ''}`}
+              />
+              {errors.phone && <span style={{ color: '#ef4444', fontSize: '0.8rem', marginLeft: '0.5rem' }}>{errors.phone}</span>}
+            </div>
+            
+            <div style={{ width: '100%', textAlign: 'left' }}>
+              <textarea 
+                placeholder={t.contact.messagePlaceholder} 
+                value={formData.message} 
+                onChange={(e) => { setFormData({ ...formData, message: e.target.value }); if(errors.message) setErrors({...errors, message: null}); }} 
+                className={`contact-textarea ${errors.message ? 'error' : ''}`}
+                rows="5"
+              ></textarea>
+              {errors.message && <span style={{ color: '#ef4444', fontSize: '0.8rem', marginLeft: '0.5rem' }}>{errors.message}</span>}
+            </div>
+            <motion.button 
+              whileHover={{ scale: 1.05 }} 
+              whileTap={{ scale: 0.95 }} 
+              type="submit" 
+              className="btn btn-primary" 
+              style={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '10px' }}
+            >
+              {t.contact.sendButton} <FaEnvelope size={18} />
+            </motion.button>
+          </motion.form>
         </motion.div>
         <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer} className="social-links">
           <motion.a variants={fadeUp} whileHover={{ y: -5, backgroundColor: 'var(--accent-color)', color: '#000' }} href="mailto:albertlivingstan73@gmail.com" className="social-link" title="Email"><FaEnvelope size={20} /></motion.a>
