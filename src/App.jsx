@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import CertificatesPage from './pages/CertificatesPage';
 import CustomCursor from './components/CustomCursor';
+import Chatbot from './components/Chatbot';
 import { motion, useScroll, useSpring } from 'framer-motion';
 import Particles, { initParticlesEngine } from "@tsparticles/react";
 import { loadSlim } from "@tsparticles/slim";
@@ -123,6 +124,7 @@ function App() {
           <Route path="/certificates" element={<CertificatesPage />} />
         </Routes>
       </motion.div>
+      <Chatbot />
     </div>
   );
 }

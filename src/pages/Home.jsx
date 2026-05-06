@@ -30,6 +30,7 @@ const navFadeDown = {
 const Home = () => {
   const [activeSection, setActiveSection] = useState('home');
   const [selectedProject, setSelectedProject] = useState(null);
+  const [isToggled, setIsToggled] = useState(false);
 
   // Typing Effect State
   const [titleIndex, setTitleIndex] = useState(0);
@@ -103,7 +104,9 @@ const Home = () => {
       </motion.nav>
 
       {/* Hero Section */}
-      <section id="home" className="section hero">
+      <section id="home" className="section hero" style={{ position: 'relative' }}>
+
+
         <div className="hero-content-wrapper">
           <motion.div className="hero-text" initial="hidden" animate="visible" variants={staggerContainer} style={{ y: heroY, opacity: heroOpacity }}>
             <motion.p variants={fadeUp} className="hero-subtitle">Welcome to my portfolio</motion.p>
@@ -157,7 +160,14 @@ const Home = () => {
               animate={{ opacity: [0.15, 0.3, 0.15], scale: [1, 1.1, 1] }}
               transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
             ></motion.div>
-            <img src="/Albert.svg" alt="Albert Livingstan" className="hero-image" onError={(e) => { e.target.src = 'https://via.placeholder.com/400x500?text=Add+me.jpg+in+public' }} />
+            <img
+              src={isToggled ? "/passport.png" : "/Albert.svg"}
+              alt="Albert Livingstan"
+              className="hero-image"
+              onClick={() => setIsToggled(!isToggled)}
+              style={{ cursor: 'pointer' }}
+              onError={(e) => { e.target.src = 'https://via.placeholder.com/400x500?text=Add+me.jpg+in+public' }}
+            />
           </motion.div>
         </div>
       </section>
