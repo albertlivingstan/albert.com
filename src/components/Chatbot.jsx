@@ -1,15 +1,23 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaRobot, FaTimes, FaPaperPlane, FaWhatsapp } from 'react-icons/fa';
+import { FaRobot, FaTimes, FaPaperPlane, FaWhatsapp, FaFileDownload } from 'react-icons/fa';
+import { db } from '../firebase';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import './Chatbot.css';
 
 const Chatbot = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [sessionId, setSessionId] = useState("");
   const [messages, setMessages] = useState([
     { text: "Hi! I'm Albert's AI Assistant 🤖. How can I help you today?", isBot: true }
   ]);
   const [input, setInput] = useState("");
   const messagesEndRef = useRef(null);
+
+  useEffect(() => {
+    // Generate a unique session ID for this chat session
+    setSessionId(Math.random().toString(36).substring(2, 15));
+  }, []);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -19,13 +27,29 @@ const Chatbot = () => {
     scrollToBottom();
   }, [messages]);
 
-  const handleSend = (text) => {
+  const saveToFirebase = async (msgText, isBotMsg) => {
+    try {
+      if (sessionId) {
+        await addDoc(collection(db, "chatLogs"), {
+          sessionId,
+          text: msgText,
+          isBot: isBotMsg,
+          timestamp: serverTimestamp()
+        });
+      }
+    } catch (error) {
+      console.error("Error saving message:", error);
+    }
+  };
+
+  const handleSend = async (text) => {
     if (!text.trim()) return;
 
     // Add user message
     const newMessages = [...messages, { text, isBot: false }];
     setMessages(newMessages);
     setInput("");
+    saveToFirebase(text, false);
 
     // Bot response logic
     setTimeout(() => {
@@ -40,6 +64,14 @@ const Chatbot = () => {
         botResponse = "Albert has worked on various cool projects including Web Apps, AI models, and IoT architectures. Check out the Projects section on the homepage!";
       } else if (lowerText.includes("hi") || lowerText.includes("hello")) {
         botResponse = "Hello there! Feel free to ask me about Albert's skills, projects, or certificates.";
+      } else if (lowerText.includes("resume") || lowerText.includes("cv")) {
+        botResponse = "Here is Albert's resume! I'm downloading it for you now.";
+        const link = document.createElement('a');
+        link.href = '/ALBERT_LIVINGSTANG_Resume.pdf';
+        link.download = 'ALBERT_LIVINGSTANG_Resume.pdf';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
       } else {
         botResponse = "That sounds interesting! For more specific questions, I can connect you directly to Albert.";
         setMessages([...newMessages, 
@@ -51,14 +83,16 @@ const Chatbot = () => {
             url: "https://wa.me/916382357454" 
           }
         ]);
+        saveToFirebase(botResponse, true);
         return;
       }
 
       setMessages([...newMessages, { text: botResponse, isBot: true }]);
+      saveToFirebase(botResponse, true);
     }, 600);
   };
 
-  const quickReplies = ["About Me", "Certificates", "Projects", "Other Questions"];
+  const quickReplies = ["About Me", "Certificates", "Projects", "Download Resume"];
 
   return (
     <div className="chatbot-container">
