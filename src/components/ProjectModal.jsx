@@ -70,7 +70,7 @@ const ProjectModal = ({ project, onClose }) => {
 
           <h2 style={{ color: 'var(--accent-color)', marginBottom: '1rem' }}>{project.title}</h2>
           <div style={{ display: 'flex', alignItems: 'flex-start', gap: '1rem', marginBottom: '2rem', flexWrap: 'wrap' }}>
-            <p style={{ color: 'var(--text-secondary)', margin: 0, flexGrow: 1 }}>{project.desc}</p>
+            <p style={{ color: 'var(--text-secondary)', margin: 0, flexGrow: 1, whiteSpace: 'pre-line' }}>{project.desc}</p>
             <a 
               href={project.github || `https://github.com/albertlivingstan/${project.id}`} 
               target="_blank" 

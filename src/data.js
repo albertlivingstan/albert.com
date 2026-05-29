@@ -153,6 +153,28 @@ export const certificates = [
 
 export const projectsData = [
   {
+    id: 'studyhub',
+    github: 'https://github.com/albertlivingstan/gcp.git',
+    title: 'StudyHub: AI-Powered LMS & Student Portal',
+    desc: 'StudyHub is a real-time engineering LMS built with React, Firebase, and Gemini AI, featuring collaborative multimedia chat, gamified progress tracking, and an instant AI tutor.',
+    mainImg: 'images/studyhub/Screenshot 2026-05-29 at 7.35.41 PM.png',
+    images: [
+      'images/studyhub/Screenshot 2026-05-29 at 7.35.41 PM.png',
+      'images/studyhub/Screenshot 2026-05-29 at 7.41.26 PM.png',
+      'images/studyhub/Screenshot 2026-05-29 at 7.42.12 PM.png',
+      'images/studyhub/Screenshot 2026-05-29 at 7.42.26 PM.png',
+      'images/studyhub/Screenshot 2026-05-29 at 7.42.36 PM.png',
+      'images/studyhub/Screenshot 2026-05-29 at 7.42.42 PM.png',
+      'images/studyhub/Screenshot 2026-05-29 at 7.42.51 PM.png',
+      'images/studyhub/Screenshot 2026-05-29 at 7.43.02 PM.png',
+      'images/studyhub/Screenshot 2026-05-29 at 7.43.18 PM.png',
+      'images/studyhub/Screenshot 2026-05-29 at 7.43.38 PM.png',
+      'images/studyhub/Screenshot 2026-05-29 at 7.51.45 PM.png'
+    ],
+    video: '1196685209',
+    tags: ['React', 'Firebase', 'Gemini API', 'Tailwind CSS']
+  },
+  {
     id: 'fittrack',
     github: 'https://github.com/albertlivingstan/Fitness-tracker.git',
     title: 'FitTrack – Health & Fitness App',
