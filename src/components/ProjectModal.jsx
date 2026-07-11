@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaTimes, FaChevronLeft, FaChevronRight, FaGithub } from 'react-icons/fa';
+import { FaTimes, FaChevronLeft, FaChevronRight, FaGithub, FaExternalLinkAlt } from 'react-icons/fa';
 
 const ProjectModal = ({ project, onClose }) => {
   const [currentImgIndex, setCurrentImgIndex] = useState(0);
@@ -71,24 +71,46 @@ const ProjectModal = ({ project, onClose }) => {
           <h2 style={{ color: 'var(--accent-color)', marginBottom: '1rem' }}>{project.title}</h2>
           <div style={{ display: 'flex', alignItems: 'flex-start', gap: '1rem', marginBottom: '2rem', flexWrap: 'wrap' }}>
             <p style={{ color: 'var(--text-secondary)', margin: 0, flexGrow: 1, whiteSpace: 'pre-line' }}>{project.desc}</p>
-            <a 
-              href={project.github || `https://github.com/albertlivingstan/${project.id}`} 
-              target="_blank" 
-              rel="noreferrer"
-              style={{ 
-                display: 'inline-flex', 
-                alignItems: 'center', 
-                gap: '0.5rem', 
-                textDecoration: 'none', 
-                padding: '0.5rem 1rem',
-                border: '1px solid var(--card-border)',
-                borderRadius: '8px',
-                color: 'var(--text-primary)',
-                background: 'var(--card-bg)'
-              }}
-            >
-              <FaGithub size={18} /> View Code
-            </a>
+            <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+              {project.liveDemo && (
+                <a 
+                  href={project.liveDemo} 
+                  target="_blank" 
+                  rel="noreferrer"
+                  style={{ 
+                    display: 'inline-flex', 
+                    alignItems: 'center', 
+                    gap: '0.5rem', 
+                    textDecoration: 'none', 
+                    padding: '0.5rem 1rem',
+                    border: '1px solid var(--accent-color)',
+                    borderRadius: '8px',
+                    color: 'var(--accent-color)',
+                    background: 'rgba(56, 189, 248, 0.1)'
+                  }}
+                >
+                  <FaExternalLinkAlt size={16} /> Live Demo
+                </a>
+              )}
+              <a 
+                href={project.github || `https://github.com/albertlivingstan/${project.id}`} 
+                target="_blank" 
+                rel="noreferrer"
+                style={{ 
+                  display: 'inline-flex', 
+                  alignItems: 'center', 
+                  gap: '0.5rem', 
+                  textDecoration: 'none', 
+                  padding: '0.5rem 1rem',
+                  border: '1px solid var(--card-border)',
+                  borderRadius: '8px',
+                  color: 'var(--text-primary)',
+                  background: 'var(--card-bg)'
+                }}
+              >
+                <FaGithub size={18} /> View Code
+              </a>
+            </div>
           </div>
 
           {images.length > 0 && (

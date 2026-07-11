@@ -54,7 +54,7 @@ const Home = () => {
     e.preventDefault();
     let newErrors = {};
     if (!formData.name.trim()) newErrors.name = "Name is required.";
-    
+
     if (!formData.email.trim()) {
       newErrors.email = "Email is required.";
     } else if (!validateEmail(formData.email)) {
@@ -149,8 +149,8 @@ const Home = () => {
               {t.nav[item]}
             </motion.span>
           ))}
-          <select 
-            value={language} 
+          <select
+            value={language}
             onChange={(e) => toggleLanguage(e.target.value)}
             className="lang-select"
           >
@@ -201,7 +201,7 @@ const Home = () => {
                 </button>
               </Magnetic>
               <Magnetic>
-                <a href="/ALBERT_LIVINGSTANG_Resume.pdf" download="ALBERT_LIVINGSTANG_Resume.pdf" className="btn btn-outline" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', textDecoration: 'none' }}>
+                <a href="Albert_Livingstan_G_Resume.pdf" download="Albert_Livingstan_G_Resume.pdf" className="btn btn-outline" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', textDecoration: 'none' }}>
                   {t.hero.resume} <FaDownload size={18} />
                 </a>
               </Magnetic>
@@ -242,9 +242,9 @@ const Home = () => {
           onClick={() => scrollTo('about')}
         >
           <div style={{ width: '28px', height: '46px', border: '2px solid var(--text-secondary)', borderRadius: '15px', display: 'flex', justifyContent: 'center', paddingTop: '8px' }}>
-            <motion.div 
-              animate={{ y: [0, 15, 0], opacity: [1, 0, 1] }} 
-              transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }} 
+            <motion.div
+              animate={{ y: [0, 15, 0], opacity: [1, 0, 1] }}
+              transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
               style={{ width: '4px', height: '8px', background: 'var(--accent-color)', borderRadius: '2px' }}
             />
           </div>
@@ -403,57 +403,57 @@ const Home = () => {
         <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer} style={{ marginBottom: '2rem' }}>
           <motion.h2 variants={fadeUp} style={{ fontSize: '2rem', marginBottom: '1rem', color: 'white' }}>{t.contact.title} <span style={{ color: 'var(--accent-color)' }}>{t.contact.titleSpan}</span></motion.h2>
           <motion.p variants={fadeUp} style={{ maxWidth: '500px', margin: '0 auto', marginBottom: '2rem' }}>{t.contact.desc}</motion.p>
-          
+
           {/* Contact Form */}
           <motion.form variants={fadeUp} onSubmit={handleContactSubmit} className="contact-form" style={{ maxWidth: '400px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             <div style={{ width: '100%', textAlign: 'left' }}>
-              <input 
-                type="text" 
-                placeholder={t.contact.namePlaceholder} 
-                value={formData.name} 
-                onChange={(e) => { setFormData({ ...formData, name: e.target.value }); if(errors.name) setErrors({...errors, name: null}); }} 
+              <input
+                type="text"
+                placeholder={t.contact.namePlaceholder}
+                value={formData.name}
+                onChange={(e) => { setFormData({ ...formData, name: e.target.value }); if (errors.name) setErrors({ ...errors, name: null }); }}
                 className={`contact-input ${errors.name ? 'error' : ''}`}
               />
               {errors.name && <span style={{ color: '#ef4444', fontSize: '0.8rem', marginLeft: '0.5rem' }}>{errors.name}</span>}
             </div>
-            
+
             <div style={{ width: '100%', textAlign: 'left' }}>
-              <input 
-                type="text" 
-                placeholder={t.contact.emailPlaceholder} 
-                value={formData.email} 
-                onChange={(e) => { setFormData({ ...formData, email: e.target.value }); if(errors.email) setErrors({...errors, email: null}); }} 
+              <input
+                type="text"
+                placeholder={t.contact.emailPlaceholder}
+                value={formData.email}
+                onChange={(e) => { setFormData({ ...formData, email: e.target.value }); if (errors.email) setErrors({ ...errors, email: null }); }}
                 className={`contact-input ${errors.email ? 'error' : ''}`}
               />
               {errors.email && <span style={{ color: '#ef4444', fontSize: '0.8rem', marginLeft: '0.5rem' }}>{errors.email}</span>}
             </div>
 
             <div style={{ width: '100%', textAlign: 'left' }}>
-              <input 
-                type="tel" 
-                placeholder={t.contact.phonePlaceholder} 
-                value={formData.phone} 
-                onChange={(e) => { setFormData({ ...formData, phone: e.target.value }); if(errors.phone) setErrors({...errors, phone: null}); }} 
+              <input
+                type="tel"
+                placeholder={t.contact.phonePlaceholder}
+                value={formData.phone}
+                onChange={(e) => { setFormData({ ...formData, phone: e.target.value }); if (errors.phone) setErrors({ ...errors, phone: null }); }}
                 className={`contact-input ${errors.phone ? 'error' : ''}`}
               />
               {errors.phone && <span style={{ color: '#ef4444', fontSize: '0.8rem', marginLeft: '0.5rem' }}>{errors.phone}</span>}
             </div>
-            
+
             <div style={{ width: '100%', textAlign: 'left' }}>
-              <textarea 
-                placeholder={t.contact.messagePlaceholder} 
-                value={formData.message} 
-                onChange={(e) => { setFormData({ ...formData, message: e.target.value }); if(errors.message) setErrors({...errors, message: null}); }} 
+              <textarea
+                placeholder={t.contact.messagePlaceholder}
+                value={formData.message}
+                onChange={(e) => { setFormData({ ...formData, message: e.target.value }); if (errors.message) setErrors({ ...errors, message: null }); }}
                 className={`contact-textarea ${errors.message ? 'error' : ''}`}
                 rows="5"
               ></textarea>
               {errors.message && <span style={{ color: '#ef4444', fontSize: '0.8rem', marginLeft: '0.5rem' }}>{errors.message}</span>}
             </div>
-            <motion.button 
-              whileHover={{ scale: 1.05 }} 
-              whileTap={{ scale: 0.95 }} 
-              type="submit" 
-              className="btn btn-primary" 
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              type="submit"
+              className="btn btn-primary"
               style={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '10px' }}
             >
               {t.contact.sendButton} <FaEnvelope size={18} />

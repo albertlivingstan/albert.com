@@ -148,6 +148,11 @@ export const certificates = [
     "img": "images/Cybersecurity Essentials.png",
     "title": "Cybersecurity Essentials",
     "date": "Completed on March 28, 2026"
+  },
+  {
+    "img": "images/Apply Al_Update Your Resume.png",
+    "title": "Applying AI Update Your Resume",
+    "date": "Completed on July 10, 2026"
   }
 ];
 
@@ -157,6 +162,7 @@ export const projectsData = [
     github: 'https://github.com/albertlivingstan/gcp.git',
     title: 'StudyHub: AI-Powered LMS & Student Portal',
     desc: 'StudyHub is a real-time engineering LMS built with React, Firebase, and Gemini AI, featuring collaborative multimedia chat, gamified progress tracking, and an instant AI tutor.',
+    liveDemo: 'https://gcp-dusky.vercel.app',
     mainImg: 'images/studyhub/Screenshot 2026-05-29 at 7.35.41 PM.png',
     images: [
       'images/studyhub/Screenshot 2026-05-29 at 7.35.41 PM.png',
@@ -238,6 +244,7 @@ export const projectsData = [
     github: 'https://github.com/albertlivingstan/ChaosOps.git',
     title: 'ChaosOps',
     desc: 'DevOps automation tools for streamlined CI/CD processes and infrastructure.',
+    liveDemo: 'https://chaos-ops.vercel.app',
     mainImg: 'images/ChaosOps/Screenshot 2026-04-14 at 9.29.39 AM.png',
     images: [
       "images/ChaosOps/Screenshot 2026-04-10 at 11.47.01 PM.png",
@@ -253,6 +260,7 @@ export const projectsData = [
     github: 'https://github.com/albertlivingstan/AQI.git',
     title: 'SolarAQI',
     desc: 'I developed SolarAQI, a web application that combines real-time air quality monitoring with solar energy insights using interactive geospatial data.',
+    liveDemo: 'https://aqi-jet.vercel.app',
     mainImg: 'images/solar/Screenshot 2026-04-22 at 1.47.01 PM.png',
     images: [
       "images/solar/Screenshot 2026-04-22 at 12.29.21 PM.png",
