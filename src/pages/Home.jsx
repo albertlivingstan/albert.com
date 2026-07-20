@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { FaGithub, FaLinkedin, FaEnvelope, FaChevronRight, FaExternalLinkAlt, FaDownload } from 'react-icons/fa';
-import { SiLeetcode, SiGeeksforgeeks, SiMongodb, SiExpress, SiReact, SiNodedotjs, SiPython, SiPytorch, SiTensorflow, SiTailwindcss, SiJavascript, SiTypescript, SiFastapi, SiFlask, SiDjango, SiPostgresql, SiMysql, SiN8N } from 'react-icons/si';
-import { FaHackerrank, FaHtml5, FaCss3Alt, FaGitAlt, FaRobot } from 'react-icons/fa';
+import { SiLeetcode, SiGeeksforgeeks, SiMongodb, SiExpress, SiReact, SiNodedotjs, SiPython, SiPytorch, SiTensorflow, SiTailwindcss, SiJavascript, SiTypescript, SiFastapi, SiFlask, SiDjango, SiMysql, SiN8N } from 'react-icons/si';
+import { FaHackerrank, FaHtml5, FaCss3Alt, FaGitAlt, FaRobot, FaJava } from 'react-icons/fa';
 import ProjectModal from '../components/ProjectModal';
 import Magnetic from '../components/Magnetic';
 import Marquee from '../components/Marquee';
-import { projectsData } from '../data';
+import { projectsData, certificates } from '../data';
 import { useLanguage } from '../context/LanguageContext';
 
 const fadeUp = {
@@ -35,6 +35,29 @@ const Home = () => {
   const [isToggled, setIsToggled] = useState(false);
   const [formData, setFormData] = useState({ name: '', email: '', phone: '', message: '' });
   const [errors, setErrors] = useState({});
+  const [skillFilter, setSkillFilter] = useState('All');
+  const [hoveredSkill, setHoveredSkill] = useState(null);
+
+  const allSkills = [
+    { name: 'Python',      icon: <SiPython />,      category: 'AI/ML',      level: 90 },
+    { name: 'PyTorch',     icon: <SiPytorch />,     category: 'AI/ML',      level: 80 },
+    { name: 'TensorFlow',  icon: <SiTensorflow />,  category: 'AI/ML',      level: 78 },
+    { name: 'NLP',         icon: <FaRobot />,        category: 'AI/ML',      level: 75 },
+    { name: 'React',       icon: <SiReact />,        category: 'Frontend',   level: 92 },
+    { name: 'Tailwind CSS',icon: <SiTailwindcss />, category: 'Frontend',   level: 88 },
+    { name: 'JavaScript',  icon: <SiJavascript />,  category: 'Frontend',   level: 90 },
+    { name: 'TypeScript',  icon: <SiTypescript />,  category: 'Frontend',   level: 78 },
+    { name: 'FastAPI',     icon: <SiFastapi />,     category: 'Backend',    level: 82 },
+    { name: 'Flask',       icon: <SiFlask />,       category: 'Backend',    level: 80 },
+    { name: 'Django',      icon: <SiDjango />,      category: 'Backend',    level: 75 },
+    { name: 'Node.js',     icon: <SiNodedotjs />,   category: 'Backend',    level: 85 },
+    { name: 'Java',        icon: <FaJava />,         category: 'Language',   level: 80 },
+    { name: 'MongoDB',     icon: <SiMongodb />,     category: 'Database',   level: 85 },
+    { name: 'MySQL',       icon: <SiMysql />,       category: 'Database',   level: 80 },
+    { name: 'n8n',         icon: <SiN8N />,         category: 'Automation', level: 70 },
+  ];
+  const skillFilters = ['All', 'AI/ML', 'Frontend', 'Backend', 'Database', 'Language', 'Automation'];
+  const filteredSkills = skillFilter === 'All' ? allSkills : allSkills.filter(s => s.category === skillFilter);
 
   const validateEmail = (email) => {
     return String(email)
@@ -269,34 +292,79 @@ const Home = () => {
       <section id="skills" className="section">
         <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} variants={staggerContainer}>
           <motion.h2 variants={fadeUp} className="section-title">{t.skills.title} <span>{t.skills.titleSpan}</span></motion.h2>
-          <div className="skills-grid">
-            {[
-              { name: 'Python', icon: <SiPython />, category: 'CSE' },
-              { name: 'PyTorch', icon: <SiPytorch />, category: 'CSE' },
-              { name: 'TensorFlow', icon: <SiTensorflow />, category: 'CSE' },
-              { name: 'NLP', icon: <FaRobot />, category: 'CSE' },
-              { name: 'React', icon: <SiReact />, category: 'Frontend' },
-              { name: 'Tailwind CSS', icon: <SiTailwindcss />, category: 'Frontend' },
-              { name: 'JavaScript', icon: <SiJavascript />, category: 'Frontend' },
-              { name: 'TypeScript', icon: <SiTypescript />, category: 'Frontend' },
-              { name: 'FastAPI', icon: <SiFastapi />, category: 'Backend' },
-              { name: 'Flask', icon: <SiFlask />, category: 'Backend' },
-              { name: 'Django', icon: <SiDjango />, category: 'Backend' },
-              { name: 'Node.js', icon: <SiNodedotjs />, category: 'Backend' },
-              { name: 'PostgreSQL', icon: <SiPostgresql />, category: 'Database' },
-              { name: 'MongoDB', icon: <SiMongodb />, category: 'Database' },
-              { name: 'MySQL', icon: <SiMysql />, category: 'Database' },
-              { name: 'n8n', icon: <SiN8N />, category: 'Automation' },
-            ].map((skill, index) => (
-              <motion.div key={index} variants={fadeUp} whileHover={{ y: -10, scale: 1.05, borderColor: 'var(--accent-color)', boxShadow: '0 10px 30px rgba(56, 189, 248, 0.15)' }} className="glass skill-card">
-                <motion.div initial={{ rotate: 0 }} whileHover={{ rotate: 360 }} transition={{ duration: 0.6 }} className="skill-icon">{skill.icon}</motion.div>
-                <div>
-                  <h3 className="skill-name">{skill.name}</h3>
-                  <p className="skill-level">{skill.category}</p>
-                </div>
-              </motion.div>
+
+          {/* Filter Tabs */}
+          <motion.div variants={fadeUp} className="skill-filters">
+            {skillFilters.map(filter => (
+              <motion.button
+                key={filter}
+                onClick={() => setSkillFilter(filter)}
+                className={`skill-filter-btn ${skillFilter === filter ? 'active' : ''}`}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                {filter}
+                {skillFilter === filter && (
+                  <motion.div className="skill-filter-indicator" layoutId="filterIndicator" />
+                )}
+              </motion.button>
             ))}
-          </div>
+          </motion.div>
+
+          {/* Skills Grid */}
+          <motion.div className="skills-grid" layout>
+            <AnimatePresence mode="popLayout">
+              {filteredSkills.map((skill) => (
+                <motion.div
+                  key={skill.name}
+                  layout
+                  initial={{ opacity: 0, scale: 0.8, y: 20 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.8, y: -20 }}
+                  transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                  whileHover={{ y: -10, scale: 1.05, borderColor: 'var(--accent-color)', boxShadow: '0 10px 30px rgba(56, 189, 248, 0.2)' }}
+                  className="glass skill-card skill-card-interactive"
+                  onHoverStart={() => setHoveredSkill(skill.name)}
+                  onHoverEnd={() => setHoveredSkill(null)}
+                >
+                  <motion.div
+                    initial={{ rotate: 0 }}
+                    whileHover={{ rotate: 360 }}
+                    transition={{ duration: 0.6 }}
+                    className="skill-icon"
+                  >
+                    {skill.icon}
+                  </motion.div>
+                  <div style={{ width: '100%' }}>
+                    <h3 className="skill-name">{skill.name}</h3>
+                    <p className="skill-level">{skill.category}</p>
+                    <div className="skill-progress-container">
+                      <motion.div
+                        className="skill-progress-bar"
+                        initial={{ width: 0 }}
+                        whileInView={{ width: `${skill.level}%` }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 1.2, ease: 'easeOut', delay: 0.1 }}
+                      />
+                    </div>
+                    <AnimatePresence>
+                      {hoveredSkill === skill.name && (
+                        <motion.span
+                          className="skill-percent"
+                          initial={{ opacity: 0, y: 4 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: 4 }}
+                          transition={{ duration: 0.2 }}
+                        >
+                          {skill.level}%
+                        </motion.span>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </motion.div>
         </motion.div>
       </section>
 
@@ -380,13 +448,94 @@ const Home = () => {
               </motion.div>
             </div>
 
-            {/* Certificates Sidebar Promo */}
+            {/* Featured Certifications */}
             <div>
               <motion.h2 variants={fadeUp} className="section-title">{t.certificates.certifications}</motion.h2>
-              <motion.div variants={fadeUp} whileHover={{ scale: 1.02 }} className="glass" style={{ padding: '2rem', textAlign: 'center' }}>
-                <motion.div animate={{ y: [0, -10, 0] }} transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }} style={{ fontSize: '3rem', marginBottom: '1rem', color: 'var(--accent-color)' }}>🏆</motion.div>
-                <h3>{t.certificates.completed}</h3>
-                <p style={{ color: 'var(--text-secondary)', margin: '1rem 0 2rem' }}>{t.certificates.fromInst}</p>
+              <div className="featured-certs-grid">
+                {[
+                  {
+                    brand: 'Microsoft',
+                    color: '#00a4ef',
+                    gradient: 'linear-gradient(135deg, #00a4ef22 0%, #0078d422 100%)',
+                    border: '#00a4ef44',
+                    logo: (
+                      <svg viewBox="0 0 23 23" width="28" height="28" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="1" y="1" width="10" height="10" fill="#f25022"/>
+                        <rect x="12" y="1" width="10" height="10" fill="#7fba00"/>
+                        <rect x="1" y="12" width="10" height="10" fill="#00a4ef"/>
+                        <rect x="12" y="12" width="10" height="10" fill="#ffb900"/>
+                      </svg>
+                    ),
+                    cert: certificates.find(c => c.title.includes('Microsoft')),
+                  },
+                  {
+                    brand: 'Google',
+                    color: '#4285F4',
+                    gradient: 'linear-gradient(135deg, #4285F422 0%, #34A85322 100%)',
+                    border: '#4285F444',
+                    logo: (
+                      <svg viewBox="0 0 24 24" width="28" height="28" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                        <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+                        <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+                      </svg>
+                    ),
+                    cert: certificates.find(c => c.title.toLowerCase().includes('digital marketing')),
+                  },
+                  {
+                    brand: 'IBM',
+                    color: '#0062ff',
+                    gradient: 'linear-gradient(135deg, #0062ff22 0%, #054ada22 100%)',
+                    border: '#0062ff44',
+                    logo: (
+                      <svg viewBox="0 0 300 120" width="44" height="18" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="0" y="0" width="300" height="120" rx="0" fill="none"/>
+                        <text x="0" y="100" fontFamily="Arial" fontWeight="bold" fontSize="120" fill="#0062ff">IBM</text>
+                      </svg>
+                    ),
+                    cert: certificates.find(c => c.title.toLowerCase().includes('ibm') || c.title.toLowerCase().includes('user experience')),
+                  },
+                  {
+                    brand: 'AWS',
+                    color: '#FF9900',
+                    gradient: 'linear-gradient(135deg, #FF990022 0%, #FF670022 100%)',
+                    border: '#FF990044',
+                    logo: (
+                      <svg viewBox="0 0 100 40" width="44" height="18" xmlns="http://www.w3.org/2000/svg">
+                        <text x="0" y="30" fontFamily="Arial" fontWeight="bold" fontSize="28" fill="#FF9900">aws</text>
+                      </svg>
+                    ),
+                    cert: certificates.find(c => c.title.toLowerCase().includes('aws')),
+                  },
+                ].map((item, i) => (
+                  <motion.div
+                    key={item.brand}
+                    variants={fadeUp}
+                    whileHover={{ y: -6, scale: 1.02, boxShadow: `0 12px 32px ${item.color}33` }}
+                    className="featured-cert-card glass"
+                    style={{ background: item.gradient, borderColor: item.border }}
+                  >
+                    <div className="featured-cert-brand">
+                      <div className="featured-cert-logo">{item.logo}</div>
+                      <span className="featured-cert-badge" style={{ background: `${item.color}22`, color: item.color, border: `1px solid ${item.color}55` }}>Certified</span>
+                    </div>
+                    {item.cert && (
+                      <>
+                        <img
+                          src={item.cert.img}
+                          alt={item.cert.title}
+                          className="featured-cert-img"
+                          onError={(e) => { e.target.style.display = 'none'; }}
+                        />
+                        <p className="featured-cert-title">{item.cert.title}</p>
+                        <p className="featured-cert-date">{item.cert.date}</p>
+                      </>
+                    )}
+                  </motion.div>
+                ))}
+              </div>
+              <motion.div variants={fadeUp} style={{ marginTop: '1.5rem', textAlign: 'center' }}>
                 <Link to="/certificates" style={{ textDecoration: 'none' }}>
                   <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="btn btn-primary" style={{ display: 'inline-flex', width: 'auto' }}>
                     {t.certificates.viewAll} <FaChevronRight size={16} />
