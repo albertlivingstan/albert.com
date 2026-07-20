@@ -153,7 +153,13 @@ export const certificates = [
     "img": "images/Apply Al_Update Your Resume.png",
     "title": "Applying AI Update Your Resume",
     "date": "Completed on July 10, 2026"
-  }
+  },
+  {
+    "img": "images/Foundations of Prompt.png",
+    "title": "Foundations of Prompt",
+    "date": "Completed: July 20, 2026"
+  },
+
 ];
 
 export const projectsData = [
