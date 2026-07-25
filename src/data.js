@@ -5,6 +5,11 @@ export const certificates = [
     "date": "Issued on October 15, 2025"
   },
   {
+    "img": "images/Azure Fundamentals.png",
+    "title": "Microsoft Azure Fundamentals",
+    "date": "Issued on March 30, 2026"
+  },
+  {
     "img": "images/MongoDB Python Developer Path.png",
     "title": "MongoDB Python Developer Path",
     "date": "Completed on October 26, 2025"
@@ -15,9 +20,29 @@ export const certificates = [
     "date": "Completed on October 19, 2024"
   },
   {
+    "img": "images/Data Analytics Job Simulation(Deloitte).png",
+    "title": "Data Analytics Job Simulation(Deloitte)",
+    "date": "Completed: July 25, 2026"
+  },
+  {
     "img": "images/User Experience Design Fundamentals.png",
     "title": "User Experience Design Fundamentals (IBM)",
     "date": "Completed on August 11, 2025"
+  },
+  {
+    "img": "images/Foundations of Prompt.png",
+    "title": "Foundations of Prompt",
+    "date": "Completed: July 20, 2026"
+  },
+  {
+    "img": "images/AWS_Cloud_Practitioner_Essentials.png",
+    "title": "AWS Cloud Practitioner Essentials",
+    "date": "Completed on March 12, 2026"
+  },
+  {
+    "img": "images/SolutionChallenge.png",
+    "title": "SolutionChallenge",
+    "date": "Completed on July 22, 2026"
   },
   {
     "img": "images/GK HACKS.png",
@@ -139,11 +164,7 @@ export const certificates = [
     "title": "Data Analytics Essentials",
     "date": "Completed on September 03, 2025"
   },
-  {
-    "img": "images/AWS_Cloud_Practitioner_Essentials.png",
-    "title": "AWS Cloud Practitioner Essentials",
-    "date": "Completed on March 12, 2026"
-  },
+
   {
     "img": "images/Cybersecurity Essentials.png",
     "title": "Cybersecurity Essentials",
@@ -154,11 +175,7 @@ export const certificates = [
     "title": "Applying AI Update Your Resume",
     "date": "Completed on July 10, 2026"
   },
-  {
-    "img": "images/Foundations of Prompt.png",
-    "title": "Foundations of Prompt",
-    "date": "Completed: July 20, 2026"
-  },
+
 
 ];
 

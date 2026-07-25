@@ -178,6 +178,11 @@ const KB = [
     keys: ['linux', 'unix', 'operating system', 'os'],
     reply: "Albert completed the Introduction to Linux (LFS101) certification from The Linux Foundation (Feb 2026) and is comfortable working in Unix/Linux environments. 🐧"
   },
+  // ── Deloitte ──
+  {
+    keys: ['deloitte', 'job simulation', 'forage', 'consulting', 'data analytics job'],
+    reply: "Albert completed the **Deloitte Data Analytics Job Simulation** (July 2026) — a hands-on virtual experience program covering real-world data analytics tasks used by Deloitte consultants. 🟢\n\nThis included data interpretation, business problem analysis, and presenting insights — all core Deloitte consulting skills!"
+  },
   // ── Thank you ──
   {
     keys: ['thank', 'thanks', 'thank you', 'thx', 'appreciate', 'helpful', 'great', 'awesome', 'nice'],

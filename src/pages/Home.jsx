@@ -38,6 +38,13 @@ const Home = () => {
   const [skillFilter, setSkillFilter] = useState('All');
   const [hoveredSkill, setHoveredSkill] = useState(null);
 
+  const [recommendations, setRecommendations] = useState([
+    { id: 1, name: "Anonymous", message: "Albert is hardworking and dedicated." },
+    { id: 2, name: "Anonymous", message: "Excellent programming and communication skills." }
+  ]);
+  const [recFormData, setRecFormData] = useState({ name: '', message: '' });
+  const [recErrors, setRecErrors] = useState({});
+
   const allSkills = [
     { name: 'Python', icon: <SiPython />, category: 'Language', level: 90 },
     { name: 'PyTorch', icon: <SiPytorch />, category: 'AI/ML', level: 80 },
@@ -105,6 +112,27 @@ const Home = () => {
     setFormData({ name: '', email: '', phone: '', message: '' });
   };
 
+  const handleRecSubmit = (e) => {
+    e.preventDefault();
+    let errors = {};
+    if (!recFormData.name.trim()) errors.name = "Name is required.";
+    if (!recFormData.message.trim()) errors.message = "Message is required.";
+
+    if (Object.keys(errors).length > 0) {
+      setRecErrors(errors);
+      return;
+    }
+
+    setRecommendations([...recommendations, {
+      id: Date.now(),
+      name: recFormData.name,
+      message: recFormData.message
+    }]);
+    setRecFormData({ name: '', message: '' });
+    setRecErrors({});
+    alert("Recommendation added successfully!");
+  };
+
   // Typing Effect State
   const [titleIndex, setTitleIndex] = useState(0);
   const titles = t.hero.titles;
@@ -122,7 +150,7 @@ const Home = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ['home', 'about', 'skills', 'projects', 'certificates'];
+      const sections = ['home', 'about', 'skills', 'projects', 'certificates', 'recommendations'];
       const scrollPosition = window.scrollY + 100;
 
       for (const section of sections) {
@@ -159,7 +187,7 @@ const Home = () => {
           <img src="/logo.png" alt="Albert Logo" style={{ height: '40px', filter: 'drop-shadow(0 0 5px var(--accent-glow))' }} />
         </motion.div>
         <div className="nav-links">
-          {['home', 'about', 'skills', 'projects', 'certificates'].map((item, i) => (
+          {['home', 'about', 'skills', 'projects', 'certificates', 'recommendations'].map((item, i) => (
             <motion.span
               key={item}
               className={`nav-link ${activeSection === item ? 'active' : ''}`}
@@ -509,6 +537,30 @@ const Home = () => {
                     ),
                     cert: certificates.find(c => c.title.toLowerCase().includes('aws')),
                   },
+                  {
+                    brand: 'Deloitte',
+                    color: '#86BC25',
+                    gradient: 'linear-gradient(135deg, #86BC2522 0%, #5a8a1222 100%)',
+                    border: '#86BC2544',
+                    logo: (
+                      <svg viewBox="0 0 220 60" width="90" height="24" xmlns="http://www.w3.org/2000/svg">
+                        <text x="0" y="46" fontFamily="Arial" fontWeight="900" fontSize="50" letterSpacing="-1" fill="#86BC25">Deloitte.</text>
+                      </svg>
+                    ),
+                    cert: certificates.find(c => c.title.toLowerCase().includes('deloitte')),
+                  },
+                  {
+                    brand: 'Infosys',
+                    color: '#007CC3',
+                    gradient: 'linear-gradient(135deg, #007CC322 0%, #005a9022 100%)',
+                    border: '#007CC344',
+                    logo: (
+                      <svg viewBox="0 0 200 44" width="82" height="22" xmlns="http://www.w3.org/2000/svg">
+                        <text x="0" y="32" fontFamily="Arial" fontWeight="bold" fontSize="30" fill="#007CC3">Infosys</text>
+                      </svg>
+                    ),
+                    cert: certificates.find(c => c.title.toLowerCase().includes('infosys')),
+                  }
                 ].map((item, i) => (
                   <motion.div
                     key={item.brand}
@@ -545,6 +597,59 @@ const Home = () => {
               </motion.div>
             </div>
           </div>
+        </motion.div>
+      </section>
+
+      {/* Recommendations Section */}
+      <section id="recommendations" className="section">
+        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} variants={staggerContainer}>
+          <motion.h2 variants={fadeUp} className="section-title">{t.recommendations.title}</motion.h2>
+
+          <div className="recommendations-grid">
+            {recommendations.map((rec) => (
+              <motion.div key={rec.id} variants={fadeUp} className="glass recommendation-card">
+                <p className="recommendation-text">"{rec.message}"</p>
+                <span className="recommendation-author">- {rec.name}</span>
+              </motion.div>
+            ))}
+          </div>
+
+          <motion.div variants={fadeUp} style={{ marginTop: '3rem' }}>
+            <h3 style={{ marginBottom: '1.5rem', fontSize: '1.5rem' }}>{t.recommendations.addTitle}</h3>
+            <form onSubmit={handleRecSubmit} className="contact-form" style={{ maxWidth: '600px', margin: '0' }}>
+              <div style={{ width: '100%', textAlign: 'left', marginBottom: '1rem' }}>
+                <input
+                  type="text"
+                  placeholder={t.recommendations.namePlaceholder}
+                  value={recFormData.name}
+                  onChange={(e) => { setRecFormData({ ...recFormData, name: e.target.value }); if (recErrors.name) setRecErrors({ ...recErrors, name: null }); }}
+                  className={`contact-input ${recErrors.name ? 'error' : ''}`}
+                />
+                {recErrors.name && <span style={{ color: '#ef4444', fontSize: '0.8rem', marginLeft: '0.5rem' }}>{recErrors.name}</span>}
+              </div>
+
+              <div style={{ width: '100%', textAlign: 'left', marginBottom: '1rem' }}>
+                <textarea
+                  placeholder={t.recommendations.messagePlaceholder}
+                  value={recFormData.message}
+                  onChange={(e) => { setRecFormData({ ...recFormData, message: e.target.value }); if (recErrors.message) setRecErrors({ ...recErrors, message: null }); }}
+                  className={`contact-textarea ${recErrors.message ? 'error' : ''}`}
+                  rows="4"
+                ></textarea>
+                {recErrors.message && <span style={{ color: '#ef4444', fontSize: '0.8rem', marginLeft: '0.5rem' }}>{recErrors.message}</span>}
+              </div>
+
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                type="submit"
+                className="btn btn-primary"
+                style={{ width: 'fit-content' }}
+              >
+                {t.recommendations.submitButton}
+              </motion.button>
+            </form>
+          </motion.div>
         </motion.div>
       </section>
 

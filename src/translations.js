@@ -1,6 +1,6 @@
 export const translations = {
   en: {
-    nav: { home: "Home", about: "About", skills: "Skills", projects: "Projects", certificates: "Certificates" },
+    nav: { home: "Home", about: "About", skills: "Skills", projects: "Projects", certificates: "Certificates", recommendations: "Recommendations" },
     hero: {
       subtitle: "Welcome to my portfolio",
       hi: "Hi, I'm Albert Livingstan",
@@ -30,6 +30,13 @@ export const translations = {
       fromInst: "From institutions like Microsoft Azure, IBM, Cisco, and more.",
       viewAll: "View All Certificates"
     },
+    recommendations: {
+      title: "Recommendations",
+      addTitle: "Add Recommendation",
+      namePlaceholder: "Your Name",
+      messagePlaceholder: "Write recommendation",
+      submitButton: "Submit"
+    },
     contact: {
       title: "Get In ",
       titleSpan: "Touch",
@@ -42,7 +49,7 @@ export const translations = {
     }
   },
   fr: {
-    nav: { home: "Accueil", about: "À propos", skills: "Compétences", projects: "Projets", certificates: "Certificats" },
+    nav: { home: "Accueil", about: "À propos", skills: "Compétences", projects: "Projets", certificates: "Certificats", recommendations: "Recommandations" },
     hero: {
       subtitle: "Bienvenue sur mon portfolio",
       hi: "Bonjour, je suis Albert Livingstan",
@@ -72,6 +79,13 @@ export const translations = {
       fromInst: "D'institutions comme Microsoft Azure, IBM, Cisco, et plus.",
       viewAll: "Voir Tous Les Certificats"
     },
+    recommendations: {
+      title: "Recommandations",
+      addTitle: "Ajouter une recommandation",
+      namePlaceholder: "Votre Nom",
+      messagePlaceholder: "Écrire une recommandation",
+      submitButton: "Soumettre"
+    },
     contact: {
       title: "Prendre ",
       titleSpan: "Contact",
@@ -84,7 +98,7 @@ export const translations = {
     }
   },
   de: {
-    nav: { home: "Startseite", about: "Über mich", skills: "Fähigkeiten", projects: "Projekte", certificates: "Zertifikate" },
+    nav: { home: "Startseite", about: "Über mich", skills: "Fähigkeiten", projects: "Projekte", certificates: "Zertifikate", recommendations: "Empfehlungen" },
     hero: {
       subtitle: "Willkommen in meinem Portfolio",
       hi: "Hallo, ich bin Albert Livingstan",
@@ -114,6 +128,13 @@ export const translations = {
       fromInst: "Von Institutionen wie Microsoft Azure, IBM, Cisco und mehr.",
       viewAll: "Alle Zertifikate ansehen"
     },
+    recommendations: {
+      title: "Empfehlungen",
+      addTitle: "Empfehlung hinzufügen",
+      namePlaceholder: "Ihr Name",
+      messagePlaceholder: "Empfehlung schreiben",
+      submitButton: "Einreichen"
+    },
     contact: {
       title: "Kontakt ",
       titleSpan: "Aufnehmen",
@@ -126,7 +147,7 @@ export const translations = {
     }
   },
   ja: {
-    nav: { home: "ホーム", about: "私について", skills: "スキル", projects: "プロジェクト", certificates: "証明書" },
+    nav: { home: "ホーム", about: "私について", skills: "スキル", projects: "プロジェクト", certificates: "証明書", recommendations: "推薦" },
     hero: {
       subtitle: "私のポートフォリオへようこそ",
       hi: "こんにちは、アルバート・リビングスタンです",
@@ -156,6 +177,13 @@ export const translations = {
       fromInst: "Microsoft Azure、IBM、Ciscoなどの機関から。",
       viewAll: "すべての証明書を見る"
     },
+    recommendations: {
+      title: "推薦",
+      addTitle: "推薦を追加",
+      namePlaceholder: "あなたの名前",
+      messagePlaceholder: "推薦を書く",
+      submitButton: "送信"
+    },
     contact: {
       title: "連絡を",
       titleSpan: "取る",
@@ -168,7 +196,7 @@ export const translations = {
     }
   },
   es: {
-    nav: { home: "Inicio", about: "Sobre mí", skills: "Habilidades", projects: "Proyectos", certificates: "Certificados" },
+    nav: { home: "Inicio", about: "Sobre mí", skills: "Habilidades", projects: "Proyectos", certificates: "Certificados", recommendations: "Recomendaciones" },
     hero: {
       subtitle: "Bienvenido a mi portafolio",
       hi: "Hola, soy Albert Livingstan",
@@ -198,6 +226,13 @@ export const translations = {
       fromInst: "De instituciones como Microsoft Azure, IBM, Cisco y más.",
       viewAll: "Ver todos los certificados"
     },
+    recommendations: {
+      title: "Recomendaciones",
+      addTitle: "Añadir Recomendación",
+      namePlaceholder: "Tu Nombre",
+      messagePlaceholder: "Escribe una recomendación",
+      submitButton: "Enviar"
+    },
     contact: {
       title: "Ponerse en ",
       titleSpan: "Contacto",
@@ -210,7 +245,7 @@ export const translations = {
     }
   },
   ar: {
-    nav: { home: "الرئيسية", about: "حول", skills: "المهارات", projects: "المشاريع", certificates: "الشهادات" },
+    nav: { home: "الرئيسية", about: "حول", skills: "المهارات", projects: "المشاريع", certificates: "الشهادات", recommendations: "التوصيات" },
     hero: {
       subtitle: "مرحبًا بك في معرض أعمالي",
       hi: "مرحبًا، أنا ألبرت ليفينجستان",
@@ -240,6 +275,13 @@ export const translations = {
       fromInst: "من مؤسسات مثل مايكروسوفت أزور، آي بي إم، سيسكو، والمزيد.",
       viewAll: "عرض جميع الشهادات"
     },
+    recommendations: {
+      title: "التوصيات",
+      addTitle: "إضافة توصية",
+      namePlaceholder: "اسمك",
+      messagePlaceholder: "اكتب توصية",
+      submitButton: "إرسال"
+    },
     contact: {
       title: "ابقى على ",
       titleSpan: "تواصل",
@@ -252,7 +294,7 @@ export const translations = {
     }
   },
   zh: {
-    nav: { home: "首页", about: "关于", skills: "技能", projects: "项目", certificates: "证书" },
+    nav: { home: "首页", about: "关于", skills: "技能", projects: "项目", certificates: "证书", recommendations: "推荐" },
     hero: {
       subtitle: "欢迎来到我的作品集",
       hi: "你好，我是 Albert Livingstan",
@@ -282,6 +324,13 @@ export const translations = {
       fromInst: "来自 Microsoft Azure、IBM、Cisco 等机构。",
       viewAll: "查看所有证书"
     },
+    recommendations: {
+      title: "推荐",
+      addTitle: "添加推荐",
+      namePlaceholder: "你的名字",
+      messagePlaceholder: "写推荐",
+      submitButton: "提交"
+    },
     contact: {
       title: "取得 ",
       titleSpan: "联系",
@@ -294,7 +343,7 @@ export const translations = {
     }
   },
   pt: {
-    nav: { home: "Início", about: "Sobre", skills: "Habilidades", projects: "Projetos", certificates: "Certificados" },
+    nav: { home: "Início", about: "Sobre", skills: "Habilidades", projects: "Projetos", certificates: "Certificados", recommendations: "Recomendações" },
     hero: {
       subtitle: "Bem-vindo ao meu portfólio",
       hi: "Olá, sou Albert Livingstan",
@@ -323,6 +372,13 @@ export const translations = {
       completed: "Mais de 30 Certificações Concluídas",
       fromInst: "De instituições como Microsoft Azure, IBM, Cisco e mais.",
       viewAll: "Ver Todos os Certificados"
+    },
+    recommendations: {
+      title: "Recomendações",
+      addTitle: "Adicionar Recomendação",
+      namePlaceholder: "Seu Nome",
+      messagePlaceholder: "Escreva uma recomendação",
+      submitButton: "Enviar"
     },
     contact: {
       title: "Entrar em ",

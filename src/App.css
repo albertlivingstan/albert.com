@@ -506,7 +506,7 @@
 /* Featured Certifications (Home Page) */
 .featured-certs-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
   gap: 1rem;
 }
 
@@ -526,6 +526,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.4rem;
   margin-bottom: 0.25rem;
 }
 
@@ -548,7 +550,7 @@
   height: 90px;
   object-fit: cover;
   border-radius: 8px;
-  border: 1px solid rgba(255,255,255,0.08);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .featured-cert-title {
@@ -563,6 +565,42 @@
   font-size: 0.72rem;
   color: var(--text-secondary);
   margin: 0;
+}
+
+/* Recommendations */
+.recommendations-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.recommendation-card {
+  padding: 2rem;
+  border-left: 4px solid var(--accent-color);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.recommendation-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(56, 189, 248, 0.15);
+}
+
+.recommendation-text {
+  font-size: 1.05rem;
+  font-style: italic;
+  color: var(--text-primary);
+  line-height: 1.6;
+}
+
+.recommendation-author {
+  font-weight: 700;
+  color: var(--accent-secondary);
+  font-size: 0.95rem;
+  align-self: flex-end;
 }
 
 /* Contact Form */
