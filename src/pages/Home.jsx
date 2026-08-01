@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { FaGithub, FaLinkedin, FaEnvelope, FaChevronRight, FaExternalLinkAlt, FaDownload } from 'react-icons/fa';
+import { FaGithub, FaLinkedin, FaEnvelope, FaChevronRight, FaExternalLinkAlt, FaDownload, FaVolumeMute, FaVolumeUp } from 'react-icons/fa';
+import Player from '@vimeo/player';
 import { SiLeetcode, SiGeeksforgeeks, SiMongodb, SiExpress, SiReact, SiNodedotjs, SiPython, SiPytorch, SiTensorflow, SiTailwindcss, SiJavascript, SiTypescript, SiFastapi, SiFlask, SiDjango, SiMysql, SiN8N } from 'react-icons/si';
 import { FaHackerrank, FaHtml5, FaCss3Alt, FaGitAlt, FaRobot, FaJava } from 'react-icons/fa';
 import ProjectModal from '../components/ProjectModal';
@@ -37,6 +38,31 @@ const Home = () => {
   const [errors, setErrors] = useState({});
   const [skillFilter, setSkillFilter] = useState('All');
   const [hoveredSkill, setHoveredSkill] = useState(null);
+
+  const iframeRef = useRef(null);
+  const [vimeoPlayer, setVimeoPlayer] = useState(null);
+  const [isVideoMuted, setIsVideoMuted] = useState(true);
+
+  useEffect(() => {
+    if (iframeRef.current && !vimeoPlayer) {
+      const player = new Player(iframeRef.current);
+      setVimeoPlayer(player);
+    }
+  }, [iframeRef, vimeoPlayer]);
+
+  const toggleMute = () => {
+    if (vimeoPlayer) {
+      if (isVideoMuted) {
+        vimeoPlayer.setVolume(1);
+        vimeoPlayer.setMuted(false);
+        setIsVideoMuted(false);
+      } else {
+        vimeoPlayer.setVolume(0);
+        vimeoPlayer.setMuted(true);
+        setIsVideoMuted(true);
+      }
+    }
+  };
 
   const [recommendations, setRecommendations] = useState([
     { id: 1, name: "Anonymous", message: "Albert is hardworking and dedicated." },
@@ -137,10 +163,6 @@ const Home = () => {
   const [titleIndex, setTitleIndex] = useState(0);
   const titles = t.hero.titles;
 
-  const { scrollY } = useScroll();
-  const heroY = useTransform(scrollY, [0, 500], [0, 150]);
-  const heroOpacity = useTransform(scrollY, [0, 300], [1, 0]);
-
   useEffect(() => {
     const interval = setInterval(() => {
       setTitleIndex((prev) => (prev + 1) % titles.length);
@@ -219,11 +241,72 @@ const Home = () => {
       </motion.nav>
 
       {/* Hero Section */}
-      <section id="home" className="section hero" style={{ position: 'relative' }}>
+      <section id="home" className="hero" style={{ position: 'relative', overflow: 'hidden' }}>
+        {/* Full-Screen Video Fold */}
+        <div className="hero-video-container" style={{ position: 'relative', width: '100%', height: '100vh', overflow: 'hidden', zIndex: 0 }}>
+          <div style={{ pointerEvents: 'none' }}>
+            <iframe 
+              ref={iframeRef}
+              src="https://player.vimeo.com/video/1214843180?autoplay=1&loop=1&muted=1&controls=0&title=0&byline=0&portrait=0&transparent=1" 
+              style={{ width: '100vw', height: '56.25vw', minHeight: '100vh', minWidth: '177.77vh', position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }} 
+              frameBorder="0" 
+              allow="autoplay; fullscreen" 
+            ></iframe>
+          </div>
+          <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0, 0, 0, 0.25)', pointerEvents: 'none' }}></div>
+          
+          {/* Mute/Unmute Button in the bottom-left corner */}
+          <div style={{ position: 'absolute', bottom: '40px', left: '5%', zIndex: 10 }}>
+            <Magnetic>
+              <button 
+                className="btn btn-primary" 
+                onClick={toggleMute}
+                style={{ 
+                  display: 'inline-flex', 
+                  alignItems: 'center', 
+                  gap: '0.5rem', 
+                  background: 'rgba(0, 0, 0, 0.6)', 
+                  border: '1px solid rgba(255, 255, 255, 0.2)', 
+                  backdropFilter: 'blur(8px)', 
+                  color: '#fff',
+                  padding: '0.8rem 1.8rem',
+                  borderRadius: '9999px',
+                  cursor: 'pointer',
+                  fontWeight: 600,
+                  transition: 'all 0.3s ease'
+                }}
+              >
+                {isVideoMuted ? <><FaVolumeMute size={18} /> Play Audio</> : <><FaVolumeUp size={18} /> Mute Audio</>}
+              </button>
+            </Magnetic>
+          </div>
 
+          {/* Scroll Indicator */}
+          <motion.div
+            animate={{ y: [0, 10, 0] }}
+            transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+            style={{ position: 'absolute', bottom: '30px', left: '50%', x: '-50%', opacity: 0.7, cursor: 'pointer', zIndex: 10 }}
+            onClick={() => scrollTo('hero-content')}
+          >
+            <div style={{ width: '28px', height: '46px', border: '2px solid var(--text-secondary)', borderRadius: '15px', display: 'flex', justifyContent: 'center', paddingTop: '8px' }}>
+              <motion.div
+                animate={{ y: [0, 15, 0], opacity: [1, 0, 1] }}
+                transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+                style={{ width: '4px', height: '8px', background: 'var(--accent-color)', borderRadius: '2px' }}
+              />
+            </div>
+          </motion.div>
+        </div>
 
-        <div className="hero-content-wrapper">
-          <motion.div className="hero-text" initial="hidden" animate="visible" variants={staggerContainer} style={{ y: heroY, opacity: heroOpacity }}>
+        {/* Hero Content Fold (Pushed Down) */}
+        <div id="hero-content" className="hero-content-wrapper" style={{ position: 'relative', zIndex: 1, minHeight: 'calc(100vh - 80px)', padding: '6rem 5% 4rem' }}>
+          <motion.div 
+            className="hero-text" 
+            initial="hidden" 
+            whileInView="visible" 
+            viewport={{ once: true, amount: 0.1 }} 
+            variants={staggerContainer}
+          >
             <motion.p variants={fadeUp} className="hero-subtitle">{t.hero.subtitle}</motion.p>
             <motion.h1 variants={fadeUp} className="hero-title">
               {t.hero.hi}<br />
@@ -243,7 +326,12 @@ const Home = () => {
             </motion.p>
             <motion.div variants={fadeUp} className="hero-buttons" style={{ flexWrap: 'wrap' }}>
               <Magnetic>
-                <button className="btn btn-primary" onClick={() => scrollTo('projects')}>
+                <button className="btn btn-primary" onClick={toggleMute}>
+                  {isVideoMuted ? <><FaVolumeMute size={20} /> About me</> : <><FaVolumeUp size={20} /> Mute audio</>}
+                </button>
+              </Magnetic>
+              <Magnetic>
+                <button className="btn btn-secondary" onClick={() => scrollTo('projects')}>
                   {t.hero.viewWork} <FaChevronRight size={20} />
                 </button>
               </Magnetic>
@@ -253,7 +341,7 @@ const Home = () => {
                 </button>
               </Magnetic>
               <Magnetic>
-                <a href="Albert_Livingstan_G_Resume.pdf" download="Albert_Livingstan_G_Resume.pdf" className="btn btn-outline" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', textDecoration: 'none' }}>
+                <a href="Albert_Livingstan_G(urk23cs1099).pdf" download="Albert_Livingstan_G(urk23cs1099).pdf" className="btn btn-outline" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', textDecoration: 'none' }}>
                   {t.hero.resume} <FaDownload size={18} />
                 </a>
               </Magnetic>
@@ -263,7 +351,8 @@ const Home = () => {
           <motion.div
             className="hero-image-container"
             initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1, y: [0, -15, 0] }}
+            whileInView={{ opacity: 1, scale: 1, y: [0, -15, 0] }}
+            viewport={{ once: true, amount: 0.1 }}
             transition={{
               opacity: { duration: 1, delay: 0.2, ease: "easeOut" },
               scale: { duration: 1, delay: 0.2, ease: "easeOut" },
@@ -285,22 +374,6 @@ const Home = () => {
             />
           </motion.div>
         </div>
-
-        {/* Scroll Indicator */}
-        <motion.div
-          animate={{ y: [0, 10, 0] }}
-          transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
-          style={{ position: 'absolute', bottom: '30px', left: '50%', x: '-50%', opacity: 0.7, cursor: 'pointer' }}
-          onClick={() => scrollTo('about')}
-        >
-          <div style={{ width: '28px', height: '46px', border: '2px solid var(--text-secondary)', borderRadius: '15px', display: 'flex', justifyContent: 'center', paddingTop: '8px' }}>
-            <motion.div
-              animate={{ y: [0, 15, 0], opacity: [1, 0, 1] }}
-              transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
-              style={{ width: '4px', height: '8px', background: 'var(--accent-color)', borderRadius: '2px' }}
-            />
-          </div>
-        </motion.div>
       </section>
 
       {/* About Section */}
@@ -561,7 +634,7 @@ const Home = () => {
                     ),
                     cert: certificates.find(c => c.title.toLowerCase().includes('infosys')),
                   }
-                ].map((item, i) => (
+                ].map(item => (
                   <motion.div
                     key={item.brand}
                     variants={fadeUp}

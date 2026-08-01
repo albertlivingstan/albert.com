@@ -125,8 +125,8 @@ const KB = [
     reply: "Sure! Downloading Albert's resume now... 📄",
     action: () => {
       const link = document.createElement('a');
-      link.href = '/Albert_Livingstan_G_Resume.pdf';
-      link.download = 'Albert_Livingstan_G_Resume.pdf';
+      link.href = '/Albert_Livingstan_G(urk23cs1099).pdf';
+      link.download = 'Albert_Livingstan_G(urk23cs1099).pdf';
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -223,17 +223,13 @@ const getBotResponse = (text) => {
 ───────────────────────────────────────────── */
 const Chatbot = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [sessionId, setSessionId] = useState("");
+  const [sessionId] = useState(() => Math.random().toString(36).substring(2, 15));
   const [messages, setMessages] = useState([
     { text: "Hi! I'm Albert's AI Assistant 🤖\nAsk me about his skills, projects, certifications, education, or how to contact him!", isBot: true }
   ]);
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef(null);
-
-  useEffect(() => {
-    setSessionId(Math.random().toString(36).substring(2, 15));
-  }, []);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
