@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { FaGithub, FaLinkedin, FaEnvelope, FaChevronRight, FaExternalLinkAlt, FaDownload, FaVolumeMute, FaVolumeUp } from 'react-icons/fa';
+import { FaGithub, FaLinkedin, FaEnvelope, FaChevronRight, FaExternalLinkAlt, FaDownload, FaVolumeMute, FaVolumeUp, FaBars, FaTimes } from 'react-icons/fa';
 import Player from '@vimeo/player';
 import { SiLeetcode, SiGeeksforgeeks, SiMongodb, SiExpress, SiReact, SiNodedotjs, SiPython, SiPytorch, SiTensorflow, SiTailwindcss, SiJavascript, SiTypescript, SiFastapi, SiFlask, SiDjango, SiMysql, SiN8N } from 'react-icons/si';
 import { FaHackerrank, FaHtml5, FaCss3Alt, FaGitAlt, FaRobot, FaJava } from 'react-icons/fa';
@@ -34,6 +34,7 @@ const Home = () => {
   const [activeSection, setActiveSection] = useState('home');
   const [selectedProject, setSelectedProject] = useState(null);
   const [isToggled, setIsToggled] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [formData, setFormData] = useState({ name: '', email: '', phone: '', message: '' });
   const [errors, setErrors] = useState({});
   const [skillFilter, setSkillFilter] = useState('All');
@@ -238,6 +239,60 @@ const Home = () => {
             <option value="pt">Português</option>
           </select>
         </div>
+        <button className="menu-btn" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+          {isMenuOpen ? <FaTimes /> : <FaBars />}
+        </button>
+        <AnimatePresence>
+          {isMenuOpen && (
+            <motion.div
+              className="mobile-menu"
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              style={{
+                position: 'absolute',
+                top: '100%',
+                left: 0,
+                right: 0,
+                background: 'var(--nav-bg)',
+                backdropFilter: 'blur(16px)',
+                WebkitBackdropFilter: 'blur(16px)',
+                borderBottom: '1px solid var(--card-border)',
+                display: 'flex',
+                flexDirection: 'column',
+                padding: '1.5rem 5%',
+                gap: '1.5rem',
+                zIndex: 40
+              }}
+            >
+              {['home', 'about', 'skills', 'projects', 'certificates', 'recommendations'].map((item) => (
+                <span
+                  key={item}
+                  className={`nav-link ${activeSection === item ? 'active' : ''}`}
+                  onClick={() => { scrollTo(item); setIsMenuOpen(false); }}
+                  style={{ color: activeSection === item ? 'var(--accent-color)' : 'var(--text-primary)', padding: '0.5rem 0', fontSize: '1.2rem', fontWeight: 600, display: 'block' }}
+                >
+                  {t.nav[item]}
+                </span>
+              ))}
+              <select
+                value={language}
+                onChange={(e) => toggleLanguage(e.target.value)}
+                className="lang-select"
+                style={{ width: 'fit-content', marginLeft: 0, marginTop: '1rem' }}
+              >
+                <option value="en">US English</option>
+                <option value="fr">Français</option>
+                <option value="de">Deutsch</option>
+                <option value="ja">日本語</option>
+                <option value="es">Español</option>
+                <option value="ar">العربية</option>
+                <option value="zh">中文</option>
+                <option value="pt">Português</option>
+              </select>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </motion.nav>
 
       {/* Hero Section */}
@@ -325,11 +380,6 @@ const Home = () => {
               {t.hero.desc}
             </motion.p>
             <motion.div variants={fadeUp} className="hero-buttons" style={{ flexWrap: 'wrap' }}>
-              <Magnetic>
-                <button className="btn btn-primary" onClick={toggleMute}>
-                  {isVideoMuted ? <><FaVolumeMute size={20} /> About me</> : <><FaVolumeUp size={20} /> Mute audio</>}
-                </button>
-              </Magnetic>
               <Magnetic>
                 <button className="btn btn-secondary" onClick={() => scrollTo('projects')}>
                   {t.hero.viewWork} <FaChevronRight size={20} />
