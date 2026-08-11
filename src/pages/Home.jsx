@@ -8,6 +8,10 @@ import { FaHackerrank, FaHtml5, FaCss3Alt, FaGitAlt, FaRobot, FaJava } from 'rea
 import ProjectModal from '../components/ProjectModal';
 import Magnetic from '../components/Magnetic';
 import Marquee from '../components/Marquee';
+import TiltCard from '../components/TiltCard';
+import GlowCard from '../components/GlowCard';
+import ScrollReveal from '../components/ScrollReveal';
+import AnimatedCounter from '../components/AnimatedCounter';
 import { projectsData, certificates } from '../data';
 import { useLanguage } from '../context/LanguageContext';
 
@@ -428,14 +432,35 @@ const Home = () => {
 
       {/* About Section */}
       <section id="about" className="section">
-        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} variants={fadeUp}>
+        <ScrollReveal>
           <h2 className="section-title">{t.about.title} <span>{t.about.titleSpan}</span></h2>
-          <motion.div whileHover={{ scale: 1.02 }} className="glass" style={{ padding: '2rem' }}>
-            <p style={{ fontSize: '1.1rem', color: 'var(--text-secondary)', lineHeight: '1.8' }}>
+          <GlowCard className="glass" style={{ padding: '2.5rem', borderRadius: '24px' }}>
+            <p style={{ fontSize: '1.15rem', color: 'var(--text-secondary)', lineHeight: '1.9', marginBottom: '2rem' }}>
               {t.about.desc}
             </p>
-          </motion.div>
-        </motion.div>
+            
+            <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap', borderTop: '1px solid var(--card-border)', paddingTop: '2rem' }}>
+              <div>
+                <h3 style={{ fontSize: '2.5rem', color: 'var(--accent-color)', marginBottom: '0.2rem' }}>
+                  <AnimatedCounter value={projectsData.length} suffix="+" />
+                </h3>
+                <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', textTransform: 'uppercase', letterSpacing: '1px' }}>Projects Completed</p>
+              </div>
+              <div>
+                <h3 style={{ fontSize: '2.5rem', color: 'var(--accent-color)', marginBottom: '0.2rem' }}>
+                  <AnimatedCounter value={certificates.length} suffix="+" />
+                </h3>
+                <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', textTransform: 'uppercase', letterSpacing: '1px' }}>Certifications</p>
+              </div>
+              <div>
+                <h3 style={{ fontSize: '2.5rem', color: 'var(--accent-color)', marginBottom: '0.2rem' }}>
+                  <AnimatedCounter value={allSkills.length} suffix="+" />
+                </h3>
+                <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', textTransform: 'uppercase', letterSpacing: '1px' }}>Technologies</p>
+              </div>
+            </div>
+          </GlowCard>
+        </ScrollReveal>
       </section>
 
       <Marquee text="INNOVATION • ENGINEERING • ARTIFICIAL INTELLIGENCE • IOT ARCHITECTURE" />
@@ -474,45 +499,47 @@ const Home = () => {
                   animate={{ opacity: 1, scale: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.8, y: -20 }}
                   transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-                  whileHover={{ y: -10, scale: 1.05, borderColor: 'var(--accent-color)', boxShadow: '0 10px 30px rgba(56, 189, 248, 0.2)' }}
-                  className="glass skill-card skill-card-interactive"
                   onHoverStart={() => setHoveredSkill(skill.name)}
                   onHoverEnd={() => setHoveredSkill(null)}
                 >
-                  <motion.div
-                    initial={{ rotate: 0 }}
-                    whileHover={{ rotate: 360 }}
-                    transition={{ duration: 0.6 }}
-                    className="skill-icon"
-                  >
-                    {skill.icon}
-                  </motion.div>
-                  <div style={{ width: '100%' }}>
-                    <h3 className="skill-name">{skill.name}</h3>
-                    <p className="skill-level">{skill.category}</p>
-                    <div className="skill-progress-container">
+                  <TiltCard>
+                    <GlowCard className="glass skill-card skill-card-interactive" style={{ height: '100%', borderRadius: '20px' }}>
                       <motion.div
-                        className="skill-progress-bar"
-                        initial={{ width: 0 }}
-                        whileInView={{ width: `${skill.level}%` }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 1.2, ease: 'easeOut', delay: 0.1 }}
-                      />
-                    </div>
-                    <AnimatePresence>
-                      {hoveredSkill === skill.name && (
-                        <motion.span
-                          className="skill-percent"
-                          initial={{ opacity: 0, y: 4 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: 4 }}
-                          transition={{ duration: 0.2 }}
-                        >
-                          {skill.level}%
-                        </motion.span>
-                      )}
-                    </AnimatePresence>
-                  </div>
+                        initial={{ rotate: 0 }}
+                        whileHover={{ rotate: 360, scale: 1.2 }}
+                        transition={{ duration: 0.6 }}
+                        className="skill-icon"
+                      >
+                        {skill.icon}
+                      </motion.div>
+                      <div style={{ width: '100%' }}>
+                        <h3 className="skill-name">{skill.name}</h3>
+                        <p className="skill-level">{skill.category}</p>
+                        <div className="skill-progress-container">
+                          <motion.div
+                            className="skill-progress-bar"
+                            initial={{ width: 0 }}
+                            whileInView={{ width: `${skill.level}%` }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 1.2, ease: 'easeOut', delay: 0.1 }}
+                          />
+                        </div>
+                        <AnimatePresence>
+                          {hoveredSkill === skill.name && (
+                            <motion.span
+                              className="skill-percent"
+                              initial={{ opacity: 0, y: 4 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              exit={{ opacity: 0, y: 4 }}
+                              transition={{ duration: 0.2 }}
+                            >
+                              {skill.level}%
+                            </motion.span>
+                          )}
+                        </AnimatePresence>
+                      </div>
+                    </GlowCard>
+                  </TiltCard>
                 </motion.div>
               ))}
             </AnimatePresence>
@@ -525,43 +552,56 @@ const Home = () => {
         <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} variants={staggerContainer}>
           <motion.h2 variants={fadeUp} className="section-title">{t.projects.title} <span>{t.projects.titleSpan}</span></motion.h2>
           <div className="projects-grid">
-            {projectsData.map((project) => (
-              <motion.div
-                key={project.id}
-                variants={fadeUp}
-                whileHover={{ y: -15, scale: 1.02 }}
-                className="glass project-card"
-                onClick={() => setSelectedProject(project)}
-                style={{ cursor: 'pointer' }}
-              >
-                <div className="project-img-wrapper">
-                  <img src={project.mainImg} alt={project.title} className="project-img" onError={(e) => { e.target.src = 'https://via.placeholder.com/400x200?text=Project+Image' }} />
-                </div>
-                <div className="project-content">
-                  <h3 className="project-title">{project.title}</h3>
-                  <p className="project-desc">{project.desc}</p>
-                  <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginBottom: '1rem' }}>
-                    {project.tags.map(tag => (
-                      <span key={tag} style={{ fontSize: '0.75rem', padding: '0.2rem 0.6rem', background: 'rgba(56, 189, 248, 0.15)', color: 'var(--accent-color)', borderRadius: '12px' }}>
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 'auto' }}>
-                    <motion.span whileHover={{ x: 5 }} className="project-link">{t.projects.viewDetails} <FaExternalLinkAlt size={16} /></motion.span>
-                    <motion.a
-                      href={project.github || `https://github.com/albertlivingstan${project.id}`}
-                      target="_blank"
-                      rel="noreferrer"
-                      whileHover={{ scale: 1.1, color: 'var(--accent-color)' }}
-                      onClick={(e) => e.stopPropagation()}
-                      style={{ color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', gap: '0.3rem', textDecoration: 'none', fontSize: '0.9rem' }}
-                    >
-                      <FaGithub size={18} /> {t.projects.code}
-                    </motion.a>
-                  </div>
-                </div>
-              </motion.div>
+            {projectsData.map((project, i) => (
+              <ScrollReveal key={project.id} delay={i * 0.1}>
+                <TiltCard>
+                  <GlowCard
+                    className="glass project-card"
+                    onClick={() => setSelectedProject(project)}
+                    style={{ cursor: 'pointer', height: '100%', display: 'flex', flexDirection: 'column' }}
+                    data-cursor-text="VIEW PROJECT"
+                  >
+                    <div className="project-img-wrapper" style={{ overflow: 'hidden' }}>
+                      <motion.img 
+                        src={project.mainImg} 
+                        alt={project.title} 
+                        className="project-img" 
+                        onError={(e) => { e.target.src = 'https://via.placeholder.com/400x200?text=Project+Image' }} 
+                        whileHover={{ scale: 1.15 }}
+                        transition={{ duration: 0.6 }}
+                      />
+                    </div>
+                    <div className="project-content">
+                      <h3 className="project-title">{project.title}</h3>
+                      <p className="project-desc">{project.desc}</p>
+                      <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginBottom: '1rem' }}>
+                        {project.tags.map(tag => (
+                          <span key={tag} style={{ fontSize: '0.75rem', padding: '0.2rem 0.6rem', background: 'rgba(6, 182, 212, 0.1)', color: 'var(--accent-color)', borderRadius: '12px', border: '1px solid rgba(6, 182, 212, 0.2)' }}>
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 'auto' }}>
+                        <Magnetic>
+                          <span className="project-link">{t.projects.viewDetails} <FaExternalLinkAlt size={16} /></span>
+                        </Magnetic>
+                        <Magnetic>
+                          <a
+                            href={project.github || `https://github.com/albertlivingstan${project.id}`}
+                            target="_blank"
+                            rel="noreferrer"
+                            onClick={(e) => e.stopPropagation()}
+                            style={{ color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', gap: '0.3rem', textDecoration: 'none', fontSize: '0.9rem' }}
+                            data-cursor-text="GITHUB"
+                          >
+                            <FaGithub size={18} /> {t.projects.code}
+                          </a>
+                        </Magnetic>
+                      </div>
+                    </div>
+                  </GlowCard>
+                </TiltCard>
+              </ScrollReveal>
             ))}
           </div>
         </motion.div>
@@ -574,30 +614,36 @@ const Home = () => {
             {/* Coding Profiles */}
             <div>
               <motion.h2 variants={fadeUp} className="section-title">{t.certificates.codingProfiles} <span>{t.certificates.codingProfilesSpan}</span></motion.h2>
-              <motion.div variants={fadeUp} whileHover={{ x: 10 }} className="glass profile-card">
-                <div className="profile-icon"><SiLeetcode /></div>
-                <div className="profile-info" style={{ flexGrow: 1 }}>
-                  <h4><a href="https://leetcode.com/u/Albert_Livingstan/" target="_blank" rel="noreferrer">LeetCode</a></h4>
-                  <p>150+ Problems Solved</p>
-                  <div className="progress-container"><motion.div initial={{ width: 0 }} whileInView={{ width: '75%' }} transition={{ duration: 1.5, ease: 'easeOut' }} className="progress-bar"></motion.div></div>
-                </div>
-              </motion.div>
-              <motion.div variants={fadeUp} whileHover={{ x: 10 }} className="glass profile-card">
-                <div className="profile-icon"><SiGeeksforgeeks /></div>
-                <div className="profile-info" style={{ flexGrow: 1 }}>
-                  <h4><a href="https://www.geeksforgeeks.org/profile/albertliv4u7m/" target="_blank" rel="noreferrer">GeeksforGeeks</a></h4>
-                  <p>120+ Problems Solved</p>
-                  <div className="progress-container"><motion.div initial={{ width: 0 }} whileInView={{ width: '65%' }} transition={{ duration: 1.5, ease: 'easeOut' }} className="progress-bar"></motion.div></div>
-                </div>
-              </motion.div>
-              <motion.div variants={fadeUp} whileHover={{ x: 10 }} className="glass profile-card">
-                <div className="profile-icon"><FaHackerrank /></div>
-                <div className="profile-info" style={{ flexGrow: 1 }}>
-                  <h4><a href="https://www.hackerrank.com/profile/albertlivingstan" target="_blank" rel="noreferrer">HackerRank</a></h4>
-                  <p>1★ in Python | 3★ in C</p>
-                  <div className="progress-container"><motion.div initial={{ width: 0 }} whileInView={{ width: '85%' }} transition={{ duration: 1.5, ease: 'easeOut' }} className="progress-bar"></motion.div></div>
-                </div>
-              </motion.div>
+              <ScrollReveal delay={0.1}>
+                <GlowCard className="glass profile-card" style={{ marginBottom: '1.5rem', borderRadius: '16px' }}>
+                  <div className="profile-icon"><SiLeetcode /></div>
+                  <div className="profile-info" style={{ flexGrow: 1 }}>
+                    <h4><a href="https://leetcode.com/u/Albert_Livingstan/" target="_blank" rel="noreferrer" data-cursor-text="VIEW">LeetCode</a></h4>
+                    <p>150+ Problems Solved</p>
+                    <div className="progress-container"><motion.div initial={{ width: 0 }} whileInView={{ width: '75%' }} transition={{ duration: 1.5, ease: 'easeOut' }} className="progress-bar"></motion.div></div>
+                  </div>
+                </GlowCard>
+              </ScrollReveal>
+              <ScrollReveal delay={0.2}>
+                <GlowCard className="glass profile-card" style={{ marginBottom: '1.5rem', borderRadius: '16px' }}>
+                  <div className="profile-icon"><SiGeeksforgeeks /></div>
+                  <div className="profile-info" style={{ flexGrow: 1 }}>
+                    <h4><a href="https://www.geeksforgeeks.org/profile/albertliv4u7m/" target="_blank" rel="noreferrer" data-cursor-text="VIEW">GeeksforGeeks</a></h4>
+                    <p>120+ Problems Solved</p>
+                    <div className="progress-container"><motion.div initial={{ width: 0 }} whileInView={{ width: '65%' }} transition={{ duration: 1.5, ease: 'easeOut' }} className="progress-bar"></motion.div></div>
+                  </div>
+                </GlowCard>
+              </ScrollReveal>
+              <ScrollReveal delay={0.3}>
+                <GlowCard className="glass profile-card" style={{ marginBottom: '1.5rem', borderRadius: '16px' }}>
+                  <div className="profile-icon"><FaHackerrank /></div>
+                  <div className="profile-info" style={{ flexGrow: 1 }}>
+                    <h4><a href="https://www.hackerrank.com/profile/albertlivingstan" target="_blank" rel="noreferrer" data-cursor-text="VIEW">HackerRank</a></h4>
+                    <p>1★ in Python | 3★ in C</p>
+                    <div className="progress-container"><motion.div initial={{ width: 0 }} whileInView={{ width: '85%' }} transition={{ duration: 1.5, ease: 'easeOut' }} className="progress-bar"></motion.div></div>
+                  </div>
+                </GlowCard>
+              </ScrollReveal>
             </div>
 
             {/* Featured Certifications */}
@@ -684,31 +730,62 @@ const Home = () => {
                     ),
                     cert: certificates.find(c => c.title.toLowerCase().includes('infosys')),
                   }
-                ].map(item => (
-                  <motion.div
-                    key={item.brand}
-                    variants={fadeUp}
-                    whileHover={{ y: -6, scale: 1.02, boxShadow: `0 12px 32px ${item.color}33` }}
-                    className="featured-cert-card glass"
-                    style={{ background: item.gradient, borderColor: item.border }}
-                  >
-                    <div className="featured-cert-brand">
-                      <div className="featured-cert-logo">{item.logo}</div>
-                      <span className="featured-cert-badge" style={{ background: `${item.color}22`, color: item.color, border: `1px solid ${item.color}55` }}>Certified</span>
-                    </div>
-                    {item.cert && (
-                      <>
-                        <img
-                          src={item.cert.img}
-                          alt={item.cert.title}
-                          className="featured-cert-img"
-                          onError={(e) => { e.target.style.display = 'none'; }}
-                        />
-                        <p className="featured-cert-title">{item.cert.title}</p>
-                        <p className="featured-cert-date">{item.cert.date}</p>
-                      </>
-                    )}
-                  </motion.div>
+                ].map((item, i) => (
+                  <ScrollReveal key={item.brand} delay={i * 0.1}>
+                    <motion.div initial="rest" whileHover="hover" whileTap="hover" style={{ height: '100%' }}>
+                      <GlowCard
+                        className="featured-cert-card glass"
+                        style={{ background: item.gradient, borderColor: item.border, height: '100%', borderRadius: '16px', position: 'relative', overflow: 'hidden' }}
+                      >
+                        <motion.div 
+                          variants={{ rest: { y: 0 }, hover: { y: -20, opacity: 0 } }} 
+                          transition={{ duration: 0.3 }}
+                          style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}
+                        >
+                          <div className="featured-cert-brand" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+                            <div className="featured-cert-logo">{item.logo}</div>
+                            <span className="featured-cert-badge" style={{ background: `${item.color}22`, color: item.color, border: `1px solid ${item.color}55` }}>Certified</span>
+                          </div>
+                        </motion.div>
+
+                        {item.cert && (
+                          <motion.div
+                            variants={{
+                              rest: { y: '100%', opacity: 0 },
+                              hover: { y: 0, opacity: 1 }
+                            }}
+                            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                            style={{
+                              position: 'absolute',
+                              bottom: 0,
+                              left: 0,
+                              right: 0,
+                              height: '100%',
+                              background: 'rgba(5, 7, 10, 0.95)',
+                              backdropFilter: 'blur(8px)',
+                              padding: '1.2rem',
+                              borderTop: `1px solid ${item.color}55`,
+                              zIndex: 10,
+                              display: 'flex',
+                              flexDirection: 'column',
+                              justifyContent: 'center',
+                              alignItems: 'center',
+                              textAlign: 'center'
+                            }}
+                          >
+                            <img
+                              src={item.cert.img}
+                              alt={item.cert.title}
+                              style={{ width: '100%', height: '80px', objectFit: 'cover', borderRadius: '8px', marginBottom: '0.8rem', border: '1px solid rgba(255,255,255,0.1)' }}
+                              onError={(e) => { e.target.style.display = 'none'; }}
+                            />
+                            <p className="featured-cert-title" style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '0.2rem', lineHeight: 1.3 }}>{item.cert.title}</p>
+                            <p className="featured-cert-date" style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>{item.cert.date}</p>
+                          </motion.div>
+                        )}
+                      </GlowCard>
+                    </motion.div>
+                  </ScrollReveal>
                 ))}
               </div>
               <motion.div variants={fadeUp} style={{ marginTop: '1.5rem', textAlign: 'center' }}>
@@ -729,11 +806,13 @@ const Home = () => {
           <motion.h2 variants={fadeUp} className="section-title">{t.recommendations.title}</motion.h2>
 
           <div className="recommendations-grid">
-            {recommendations.map((rec) => (
-              <motion.div key={rec.id} variants={fadeUp} className="glass recommendation-card">
-                <p className="recommendation-text">"{rec.message}"</p>
-                <span className="recommendation-author">- {rec.name}</span>
-              </motion.div>
+            {recommendations.map((rec, i) => (
+              <ScrollReveal key={rec.id} delay={i * 0.1}>
+                <GlowCard className="glass recommendation-card" style={{ height: '100%', borderRadius: '16px' }}>
+                  <p className="recommendation-text">"{rec.message}"</p>
+                  <span className="recommendation-author" style={{ marginTop: 'auto' }}>- {rec.name}</span>
+                </GlowCard>
+              </ScrollReveal>
             ))}
           </div>
 
@@ -778,66 +857,69 @@ const Home = () => {
 
       {/* Footer / Contact */}
       <footer id="contact" className="footer">
-        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer} style={{ marginBottom: '2rem' }}>
-          <motion.h2 variants={fadeUp} style={{ fontSize: '2rem', marginBottom: '1rem', color: 'white' }}>{t.contact.title} <span style={{ color: 'var(--accent-color)' }}>{t.contact.titleSpan}</span></motion.h2>
-          <motion.p variants={fadeUp} style={{ maxWidth: '500px', margin: '0 auto', marginBottom: '2rem' }}>{t.contact.desc}</motion.p>
+        <ScrollReveal style={{ marginBottom: '2rem' }}>
+          <h2 style={{ fontSize: '2.5rem', marginBottom: '1rem', color: 'white', fontFamily: "'Outfit', sans-serif" }}>{t.contact.title} <span style={{ color: 'var(--accent-color)' }}>{t.contact.titleSpan}</span></h2>
+          <p style={{ maxWidth: '500px', margin: '0 auto', marginBottom: '3rem', color: 'var(--text-secondary)' }}>{t.contact.desc}</p>
 
           {/* Contact Form */}
-          <motion.form variants={fadeUp} onSubmit={handleContactSubmit} className="contact-form" style={{ maxWidth: '400px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-            <div style={{ width: '100%', textAlign: 'left' }}>
-              <input
-                type="text"
-                placeholder={t.contact.namePlaceholder}
-                value={formData.name}
-                onChange={(e) => { setFormData({ ...formData, name: e.target.value }); if (errors.name) setErrors({ ...errors, name: null }); }}
-                className={`contact-input ${errors.name ? 'error' : ''}`}
-              />
-              {errors.name && <span style={{ color: '#ef4444', fontSize: '0.8rem', marginLeft: '0.5rem' }}>{errors.name}</span>}
-            </div>
+          <GlowCard className="glass" style={{ maxWidth: '500px', margin: '0 auto', padding: '2rem', borderRadius: '24px' }}>
+            <form onSubmit={handleContactSubmit} className="contact-form" style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem', margin: 0 }}>
+              <div style={{ width: '100%', textAlign: 'left' }}>
+                <input
+                  type="text"
+                  placeholder={t.contact.namePlaceholder}
+                  value={formData.name}
+                  onChange={(e) => { setFormData({ ...formData, name: e.target.value }); if (errors.name) setErrors({ ...errors, name: null }); }}
+                  className={`contact-input ${errors.name ? 'error' : ''}`}
+                />
+                {errors.name && <span style={{ color: '#ef4444', fontSize: '0.8rem', marginLeft: '0.5rem' }}>{errors.name}</span>}
+              </div>
 
-            <div style={{ width: '100%', textAlign: 'left' }}>
-              <input
-                type="text"
-                placeholder={t.contact.emailPlaceholder}
-                value={formData.email}
-                onChange={(e) => { setFormData({ ...formData, email: e.target.value }); if (errors.email) setErrors({ ...errors, email: null }); }}
-                className={`contact-input ${errors.email ? 'error' : ''}`}
-              />
-              {errors.email && <span style={{ color: '#ef4444', fontSize: '0.8rem', marginLeft: '0.5rem' }}>{errors.email}</span>}
-            </div>
+              <div style={{ width: '100%', textAlign: 'left' }}>
+                <input
+                  type="email"
+                  placeholder={t.contact.emailPlaceholder}
+                  value={formData.email}
+                  onChange={(e) => { setFormData({ ...formData, email: e.target.value }); if (errors.email) setErrors({ ...errors, email: null }); }}
+                  className={`contact-input ${errors.email ? 'error' : ''}`}
+                />
+                {errors.email && <span style={{ color: '#ef4444', fontSize: '0.8rem', marginLeft: '0.5rem' }}>{errors.email}</span>}
+              </div>
 
-            <div style={{ width: '100%', textAlign: 'left' }}>
-              <input
-                type="tel"
-                placeholder={t.contact.phonePlaceholder}
-                value={formData.phone}
-                onChange={(e) => { setFormData({ ...formData, phone: e.target.value }); if (errors.phone) setErrors({ ...errors, phone: null }); }}
-                className={`contact-input ${errors.phone ? 'error' : ''}`}
-              />
-              {errors.phone && <span style={{ color: '#ef4444', fontSize: '0.8rem', marginLeft: '0.5rem' }}>{errors.phone}</span>}
-            </div>
+              <div style={{ width: '100%', textAlign: 'left' }}>
+                <input
+                  type="tel"
+                  placeholder={t.contact.phonePlaceholder}
+                  value={formData.phone}
+                  onChange={(e) => { setFormData({ ...formData, phone: e.target.value }); if (errors.phone) setErrors({ ...errors, phone: null }); }}
+                  className={`contact-input ${errors.phone ? 'error' : ''}`}
+                />
+                {errors.phone && <span style={{ color: '#ef4444', fontSize: '0.8rem', marginLeft: '0.5rem' }}>{errors.phone}</span>}
+              </div>
 
-            <div style={{ width: '100%', textAlign: 'left' }}>
-              <textarea
-                placeholder={t.contact.messagePlaceholder}
-                value={formData.message}
-                onChange={(e) => { setFormData({ ...formData, message: e.target.value }); if (errors.message) setErrors({ ...errors, message: null }); }}
-                className={`contact-textarea ${errors.message ? 'error' : ''}`}
-                rows="5"
-              ></textarea>
-              {errors.message && <span style={{ color: '#ef4444', fontSize: '0.8rem', marginLeft: '0.5rem' }}>{errors.message}</span>}
-            </div>
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              type="submit"
-              className="btn btn-primary"
-              style={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '10px' }}
-            >
-              {t.contact.sendButton} <FaEnvelope size={18} />
-            </motion.button>
-          </motion.form>
-        </motion.div>
+              <div style={{ width: '100%', textAlign: 'left' }}>
+                <textarea
+                  placeholder={t.contact.messagePlaceholder}
+                  value={formData.message}
+                  onChange={(e) => { setFormData({ ...formData, message: e.target.value }); if (errors.message) setErrors({ ...errors, message: null }); }}
+                  className={`contact-textarea ${errors.message ? 'error' : ''}`}
+                  rows="4"
+                ></textarea>
+                {errors.message && <span style={{ color: '#ef4444', fontSize: '0.8rem', marginLeft: '0.5rem' }}>{errors.message}</span>}
+              </div>
+
+              <Magnetic>
+                <button
+                  type="submit"
+                  className="btn btn-primary"
+                  style={{ width: '100%', justifyContent: 'center' }}
+                >
+                  {t.contact.submitButton}
+                </button>
+              </Magnetic>
+            </form>
+          </GlowCard>
+        </ScrollReveal>
         <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer} className="social-links">
           <motion.a variants={fadeUp} whileHover={{ y: -5, backgroundColor: 'var(--accent-color)', color: '#000' }} href="mailto:albertlivingstan73@gmail.com" className="social-link" title="Email"><FaEnvelope size={20} /></motion.a>
           <motion.a variants={fadeUp} whileHover={{ y: -5, backgroundColor: 'var(--accent-color)', color: '#000' }} href="https://github.com/albertlivingstan" target="_blank" rel="noreferrer" className="social-link" title="GitHub"><FaGithub size={20} /></motion.a>

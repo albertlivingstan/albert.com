@@ -39,6 +39,12 @@ export const certificates = [
     "title": "AWS Cloud Practitioner Essentials",
     "date": "Completed on March 12, 2026"
   },
+  
+  {
+    "img": "images/Excel.png",
+    "title": " Excel Lookup, Reference, Math & Text Functions",
+    "date": "Completed on August 07, 2026"
+  },
   {
     "img": "images/SolutionChallenge.png",
     "title": "SolutionChallenge",

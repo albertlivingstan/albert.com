@@ -1,15 +1,31 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
 
 :root {
-  --bg-color: #050505;
-  --text-primary: #ffffff;
-  --text-secondary: #a0a0a0;
-  --accent-color: #38bdf8;
-  --accent-glow: rgba(56, 189, 248, 0.5);
-  --accent-secondary: #0ea5e9;
-  --card-bg: rgba(255, 255, 255, 0.03);
-  --card-border: rgba(255, 255, 255, 0.08);
-  --nav-bg: rgba(5, 5, 5, 0.8);
+  --bg-color: #05070A;
+  --bg-secondary: #080A0F;
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --accent-color: #06b6d4;
+  --accent-glow: rgba(6, 182, 212, 0.5);
+  --accent-secondary: #8b5cf6;
+  --card-bg: rgba(255, 255, 255, 0.02);
+  --card-border: rgba(255, 255, 255, 0.05);
+  --nav-bg: rgba(5, 7, 10, 0.7);
+  --neon-glow: 0 0 10px rgba(6, 182, 212, 0.5), 0 0 20px rgba(6, 182, 212, 0.3);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-delay: -1ms !important;
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    background-attachment: initial !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0s !important;
+    transition-delay: 0s !important;
+  }
 }
 
 * {
@@ -26,6 +42,12 @@ body {
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   cursor: none;
+}
+
+@media (hover: none) and (pointer: coarse) {
+  body, a, button {
+    cursor: auto !important;
+  }
 }
 
 h1, h2, h3, h4, h5, h6, .nav-brand {
@@ -56,6 +78,12 @@ h1, h2, h3, h4, h5, h6, .nav-brand {
   border: 1px solid var(--card-border);
   border-radius: 20px;
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.glass:hover {
+  border-color: rgba(6, 182, 212, 0.2);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4), 0 0 15px rgba(6, 182, 212, 0.1);
 }
 
 h1, h2, h3, h4, h5, h6 {

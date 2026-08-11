@@ -1,78 +1,133 @@
 import React, { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, useSpring, useMotionValue } from 'framer-motion';
 
 const CustomCursor = () => {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [isVisible, setIsVisible] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
+  const [hoverText, setHoverText] = useState('');
+  
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  
+  // Smooth spring configuration for the halo
+  const springConfig = { damping: 25, stiffness: 150, mass: 0.5 };
+  const smoothX = useSpring(mouseX, springConfig);
+  const smoothY = useSpring(mouseY, springConfig);
 
   useEffect(() => {
-    const updateMousePosition = (e) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
+    // Disable on touch devices
+    if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+      return;
+    }
+
+    const handleMouseMove = (e) => {
+      mouseX.set(e.clientX);
+      mouseY.set(e.clientY);
+      if (!isVisible) setIsVisible(true);
     };
 
-    const handleMouseOver = (e) => {
-      if (['A', 'BUTTON', 'SPAN'].includes(e.target.tagName) || e.target.closest('.project-card')) {
-        setIsHovering(true);
-      } else {
-        setIsHovering(false);
+    const handleMouseLeave = () => setIsVisible(false);
+    const handleMouseEnter = () => setIsVisible(true);
+
+    const handleInteractableEnter = (e) => {
+      setIsHovering(true);
+      
+      const target = e.target.closest('[data-cursor-text]');
+      if (target) {
+        setHoverText(target.getAttribute('data-cursor-text') || '');
+      } else if (e.target.closest('a, button, input, textarea, select, .project-card, .skill-card')) {
+        setHoverText('');
       }
     };
 
-    window.addEventListener('mousemove', updateMousePosition);
-    window.addEventListener('mouseover', handleMouseOver);
+    const handleInteractableLeave = () => {
+      setIsHovering(false);
+      setHoverText('');
+    };
+
+    document.addEventListener('mousemove', handleMouseMove);
+    document.body.addEventListener('mouseleave', handleMouseLeave);
+    document.body.addEventListener('mouseenter', handleMouseEnter);
+    
+    // Use delegation for hover interactions
+    document.addEventListener('mouseover', handleInteractableEnter);
+    document.addEventListener('mouseout', handleInteractableLeave);
 
     return () => {
-      window.removeEventListener('mousemove', updateMousePosition);
-      window.removeEventListener('mouseover', handleMouseOver);
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.body.removeEventListener('mouseleave', handleMouseLeave);
+      document.body.removeEventListener('mouseenter', handleMouseEnter);
+      document.removeEventListener('mouseover', handleInteractableEnter);
+      document.removeEventListener('mouseout', handleInteractableLeave);
     };
-  }, []);
+  }, [mouseX, mouseY, isVisible]);
+
+  if (!isVisible) return null;
 
   return (
     <>
+      {/* Small Dot (Instant) */}
       <motion.div
+        className="cursor-dot"
         style={{
           position: 'fixed',
           top: 0,
           left: 0,
+          x: mouseX,
+          y: mouseY,
+          translateX: '-50%',
+          translateY: '-50%',
           width: '8px',
           height: '8px',
           backgroundColor: 'var(--accent-color)',
           borderRadius: '50%',
           pointerEvents: 'none',
-          zIndex: 999999,
-          translateX: '-50%',
-          translateY: '-50%'
+          zIndex: 9999,
         }}
-        animate={{
-          x: mousePosition.x,
-          y: mousePosition.y,
-          scale: isHovering ? 0 : 1
-        }}
-        transition={{ type: 'tween', ease: 'backOut', duration: 0.1 }}
       />
+      
+      {/* Blurred Halo (Delayed with Lerp/Spring) */}
       <motion.div
+        className="cursor-halo"
         style={{
           position: 'fixed',
           top: 0,
           left: 0,
-          width: '40px',
-          height: '40px',
-          borderRadius: '50%',
-          pointerEvents: 'none',
-          zIndex: 999998,
+          x: smoothX,
+          y: smoothY,
           translateX: '-50%',
           translateY: '-50%',
-          backgroundColor: isHovering ? 'rgba(56, 189, 248, 0.1)' : 'transparent',
-          border: `1px solid ${isHovering ? 'var(--accent-color)' : 'rgba(255, 255, 255, 0.3)'}`,
-          backdropFilter: isHovering ? 'blur(4px)' : 'none'
+          pointerEvents: 'none',
+          zIndex: 9998,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          borderRadius: '50%'
         }}
         animate={{
-          x: mousePosition.x,
-          y: mousePosition.y,
-          scale: isHovering ? 1.5 : 1
+          width: isHovering ? (hoverText ? '80px' : '50px') : '32px',
+          height: isHovering ? (hoverText ? '80px' : '50px') : '32px',
+          backgroundColor: isHovering 
+            ? (hoverText ? 'rgba(6, 182, 212, 0.9)' : 'rgba(6, 182, 212, 0.2)') 
+            : 'transparent',
+          border: isHovering ? '1px solid transparent' : '1px solid rgba(6, 182, 212, 0.5)',
+          backdropFilter: isHovering && hoverText ? 'blur(4px)' : 'none',
         }}
-        transition={{ type: 'tween', ease: 'easeOut', duration: 0.2 }}
-      />
+        transition={{ type: 'tween', duration: 0.2 }}
+      >
+        <motion.div
+          animate={{ opacity: isHovering && hoverText ? 1 : 0 }}
+          style={{
+            color: '#000',
+            fontSize: '12px',
+            fontWeight: 800,
+            letterSpacing: '1px',
+            textAlign: 'center',
+          }}
+        >
+          {hoverText}
+        </motion.div>
+      </motion.div>
     </>
   );
 };
