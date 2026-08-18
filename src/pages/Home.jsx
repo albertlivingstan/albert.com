@@ -304,29 +304,29 @@ const Home = () => {
         {/* Full-Screen Video Fold */}
         <div className="hero-video-container" style={{ position: 'relative', width: '100%', height: '100vh', overflow: 'hidden', zIndex: 0 }}>
           <div style={{ pointerEvents: 'none' }}>
-            <iframe 
+            <iframe
               ref={iframeRef}
-              src="https://player.vimeo.com/video/1214843180?autoplay=1&loop=1&muted=1&controls=0&title=0&byline=0&portrait=0&transparent=1" 
-              style={{ width: '100vw', height: '56.25vw', minHeight: '100vh', minWidth: '177.77vh', position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }} 
-              frameBorder="0" 
-              allow="autoplay; fullscreen" 
+              src="https://player.vimeo.com/video/1214843180?autoplay=1&loop=1&muted=1&controls=0&title=0&byline=0&portrait=0&transparent=1"
+              style={{ width: '100vw', height: '56.25vw', minHeight: '100vh', minWidth: '177.77vh', position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}
+              frameBorder="0"
+              allow="autoplay; fullscreen"
             ></iframe>
           </div>
           <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0, 0, 0, 0.25)', pointerEvents: 'none' }}></div>
-          
+
           {/* Mute/Unmute Button in the bottom-left corner */}
           <div style={{ position: 'absolute', bottom: '40px', left: '5%', zIndex: 10 }}>
             <Magnetic>
-              <button 
-                className="btn btn-primary" 
+              <button
+                className="btn btn-primary"
                 onClick={toggleMute}
-                style={{ 
-                  display: 'inline-flex', 
-                  alignItems: 'center', 
-                  gap: '0.5rem', 
-                  background: 'rgba(0, 0, 0, 0.6)', 
-                  border: '1px solid rgba(255, 255, 255, 0.2)', 
-                  backdropFilter: 'blur(8px)', 
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  background: 'rgba(0, 0, 0, 0.6)',
+                  border: '1px solid rgba(255, 255, 255, 0.2)',
+                  backdropFilter: 'blur(8px)',
                   color: '#fff',
                   padding: '0.8rem 1.8rem',
                   borderRadius: '9999px',
@@ -359,11 +359,11 @@ const Home = () => {
 
         {/* Hero Content Fold (Pushed Down) */}
         <div id="hero-content" className="hero-content-wrapper" style={{ position: 'relative', zIndex: 1, minHeight: 'calc(100vh - 80px)', padding: '6rem 5% 4rem' }}>
-          <motion.div 
-            className="hero-text" 
-            initial="hidden" 
-            whileInView="visible" 
-            viewport={{ once: true, amount: 0.1 }} 
+          <motion.div
+            className="hero-text"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.1 }}
             variants={staggerContainer}
           >
             <motion.p variants={fadeUp} className="hero-subtitle">{t.hero.subtitle}</motion.p>
@@ -395,7 +395,7 @@ const Home = () => {
                 </button>
               </Magnetic>
               <Magnetic>
-                <a href="Albert_Livingstan_G(urk23cs1099).pdf" download="Albert_Livingstan_G(urk23cs1099).pdf" className="btn btn-outline" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', textDecoration: 'none' }}>
+                <a href="Albert_Livingstan_G-2.pdf" download="Albert_Livingstan_G-2.pdf" className="btn btn-outline" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', textDecoration: 'none' }}>
                   {t.hero.resume} <FaDownload size={18} />
                 </a>
               </Magnetic>
@@ -438,7 +438,7 @@ const Home = () => {
             <p style={{ fontSize: '1.15rem', color: 'var(--text-secondary)', lineHeight: '1.9', marginBottom: '2rem' }}>
               {t.about.desc}
             </p>
-            
+
             <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap', borderTop: '1px solid var(--card-border)', paddingTop: '2rem' }}>
               <div>
                 <h3 style={{ fontSize: '2.5rem', color: 'var(--accent-color)', marginBottom: '0.2rem' }}>
@@ -562,11 +562,11 @@ const Home = () => {
                     data-cursor-text="VIEW PROJECT"
                   >
                     <div className="project-img-wrapper" style={{ overflow: 'hidden' }}>
-                      <motion.img 
-                        src={project.mainImg} 
-                        alt={project.title} 
-                        className="project-img" 
-                        onError={(e) => { e.target.src = 'https://via.placeholder.com/400x200?text=Project+Image' }} 
+                      <motion.img
+                        src={project.mainImg}
+                        alt={project.title}
+                        className="project-img"
+                        onError={(e) => { e.target.src = 'https://via.placeholder.com/400x200?text=Project+Image' }}
                         whileHover={{ scale: 1.15 }}
                         transition={{ duration: 0.6 }}
                       />
@@ -737,8 +737,8 @@ const Home = () => {
                         className="featured-cert-card glass"
                         style={{ background: item.gradient, borderColor: item.border, height: '100%', borderRadius: '16px', position: 'relative', overflow: 'hidden' }}
                       >
-                        <motion.div 
-                          variants={{ rest: { y: 0 }, hover: { y: -20, opacity: 0 } }} 
+                        <motion.div
+                          variants={{ rest: { y: 0 }, hover: { y: -20, opacity: 0 } }}
                           transition={{ duration: 0.3 }}
                           style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}
                         >
