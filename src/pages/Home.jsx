@@ -465,7 +465,7 @@ const Home = () => {
                 </button>
               </Magnetic>
               <Magnetic>
-                <a href="Albert_Livingstan_G-2.pdf" download="Albert_Livingstan_G-2.pdf" className="btn btn-outline" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', textDecoration: 'none' }}>
+                <a href="public/Albert_Livingstan_G_Resume.pdf" download="Albert_Livingstan_G_Resume.pdf" className="btn btn-outline" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', textDecoration: 'none' }}>
                   {t.hero.resume} <FaDownload size={18} />
                 </a>
               </Magnetic>
