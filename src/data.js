@@ -10,6 +10,11 @@ export const certificates = [
     "date": "Issued on March 30, 2026"
   },
   {
+    "img": "images/Chatbot.png",
+    "title": "Build Your Own Chatbot - Level 1",
+    "date": "Completed on Sep 12, 2026"
+  },
+  {
     "img": "images/MongoDB Python Developer Path.png",
     "title": "MongoDB Python Developer Path",
     "date": "Completed on October 26, 2025"
@@ -39,7 +44,7 @@ export const certificates = [
     "title": "AWS Cloud Practitioner Essentials",
     "date": "Completed on March 12, 2026"
   },
-  
+
   {
     "img": "images/Excel.png",
     "title": " Excel Lookup, Reference, Math & Text Functions",

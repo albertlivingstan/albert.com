@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Link } from 'react-router-dom';
-import { FaGithub, FaLinkedin, FaEnvelope, FaChevronRight, FaExternalLinkAlt, FaDownload, FaVolumeMute, FaVolumeUp, FaBars, FaTimes } from 'react-icons/fa';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { FaGithub, FaLinkedin, FaEnvelope, FaChevronRight, FaExternalLinkAlt, FaDownload, FaVolumeMute, FaVolumeUp, FaBars, FaTimes, FaBriefcase } from 'react-icons/fa';
 import Player from '@vimeo/player';
 import { SiLeetcode, SiGeeksforgeeks, SiMongodb, SiExpress, SiReact, SiNodedotjs, SiPython, SiPytorch, SiTensorflow, SiTailwindcss, SiJavascript, SiTypescript, SiFastapi, SiFlask, SiDjango, SiMysql, SiN8N } from 'react-icons/si';
 import { FaHackerrank, FaHtml5, FaCss3Alt, FaGitAlt, FaRobot, FaJava } from 'react-icons/fa';
 import ProjectModal from '../components/ProjectModal';
+import RecruiterModal from '../components/RecruiterModal';
 import Magnetic from '../components/Magnetic';
 import Marquee from '../components/Marquee';
 import TiltCard from '../components/TiltCard';
@@ -35,10 +36,13 @@ const navFadeDown = {
 
 const Home = () => {
   const { language, toggleLanguage, t } = useLanguage();
+  const navigate = useNavigate();
+  const location = useLocation();
   const [activeSection, setActiveSection] = useState('home');
   const [selectedProject, setSelectedProject] = useState(null);
   const [isToggled, setIsToggled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isRecruiterModalOpen, setIsRecruiterModalOpen] = useState(false);
   const [formData, setFormData] = useState({ name: '', email: '', phone: '', message: '' });
   const [errors, setErrors] = useState({});
   const [skillFilter, setSkillFilter] = useState('All');
@@ -47,6 +51,21 @@ const Home = () => {
   const iframeRef = useRef(null);
   const [vimeoPlayer, setVimeoPlayer] = useState(null);
   const [isVideoMuted, setIsVideoMuted] = useState(true);
+
+  useEffect(() => {
+    if (location.state && location.state.scrollTo) {
+      const target = location.state.scrollTo;
+      setTimeout(() => {
+        const element = document.getElementById(target);
+        if (element) {
+          window.scrollTo({
+            top: element.offsetTop - 80,
+            behavior: 'smooth'
+          });
+        }
+      }, 150);
+    }
+  }, [location]);
 
   useEffect(() => {
     if (iframeRef.current && !vimeoPlayer) {
@@ -193,6 +212,10 @@ const Home = () => {
   }, []);
 
   const scrollTo = (id) => {
+    if (id === 'certificates') {
+      navigate('/certificates');
+      return;
+    }
     const element = document.getElementById(id);
     if (element) {
       window.scrollTo({
@@ -210,22 +233,44 @@ const Home = () => {
         animate="visible"
         variants={navFadeDown}
       >
-        <motion.div whileHover={{ scale: 1.05 }} className="nav-brand" style={{ display: 'flex', alignItems: 'center' }}>
+        <motion.div whileHover={{ scale: 1.05 }} className="nav-brand" style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }} onClick={() => scrollTo('home')}>
           <img src="/logo.png" alt="Albert Logo" style={{ height: '40px', filter: 'drop-shadow(0 0 5px var(--accent-glow))' }} />
         </motion.div>
         <div className="nav-links">
           {['home', 'about', 'skills', 'projects', 'certificates', 'recommendations'].map((item, i) => (
             <motion.span
               key={item}
-              className={`nav-link ${activeSection === item ? 'active' : ''}`}
+              className={`nav-link ${activeSection === item ? 'active' : ''} ${item === 'certificates' ? 'cert-nav-item' : ''}`}
               onClick={() => scrollTo(item)}
-              whileHover={{ y: -3, color: 'var(--accent-color)' }}
+              whileHover={{ y: -3, scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.1 + 0.5, ease: 'easeOut' }}
-              style={{ color: activeSection === item ? 'var(--accent-color)' : '' }}
+              style={{
+                color: activeSection === item ? 'var(--accent-color)' : '',
+                position: 'relative',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.35rem'
+              }}
             >
               {t.nav[item]}
+              {item === 'certificates' && (
+                <motion.span
+                  initial={{ scale: 0.8 }}
+                  animate={{ scale: [0.8, 1.3, 0.8], opacity: [0.7, 1, 0.7] }}
+                  transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+                  style={{
+                    width: '7px',
+                    height: '7px',
+                    borderRadius: '50%',
+                    background: 'var(--accent-color)',
+                    boxShadow: '0 0 10px var(--accent-color)',
+                    display: 'inline-block'
+                  }}
+                />
+              )}
             </motion.span>
           ))}
           <select
@@ -274,9 +319,14 @@ const Home = () => {
                   key={item}
                   className={`nav-link ${activeSection === item ? 'active' : ''}`}
                   onClick={() => { scrollTo(item); setIsMenuOpen(false); }}
-                  style={{ color: activeSection === item ? 'var(--accent-color)' : 'var(--text-primary)', padding: '0.5rem 0', fontSize: '1.2rem', fontWeight: 600, display: 'block' }}
+                  style={{ color: activeSection === item ? 'var(--accent-color)' : 'var(--text-primary)', padding: '0.5rem 0', fontSize: '1.2rem', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '0.5rem' }}
                 >
                   {t.nav[item]}
+                  {item === 'certificates' && (
+                    <span style={{ fontSize: '0.7rem', padding: '0.1rem 0.5rem', borderRadius: '10px', background: 'var(--accent-color)', color: '#000', fontWeight: 700 }}>
+                      VIEW PAGE
+                    </span>
+                  )}
                 </span>
               ))}
               <select
@@ -366,6 +416,21 @@ const Home = () => {
             viewport={{ once: true, amount: 0.1 }}
             variants={staggerContainer}
           >
+            <motion.div variants={fadeUp} style={{ display: 'flex', alignItems: 'center', gap: '0.8rem', flexWrap: 'wrap', marginBottom: '1.2rem' }}>
+              <span className="open-to-work-pill">
+                <span className="pulse-dot"></span> OPEN FOR RECRUITMENT & HIRING
+              </span>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => setIsRecruiterModalOpen(true)}
+                className="recruiter-badge"
+                style={{ border: 'none', cursor: 'pointer' }}
+              >
+                <FaBriefcase /> 👔 Recruiter Snapshot (HR View)
+              </motion.button>
+            </motion.div>
+
             <motion.p variants={fadeUp} className="hero-subtitle">{t.hero.subtitle}</motion.p>
             <motion.h1 variants={fadeUp} className="hero-title">
               {t.hero.hi}<br />
@@ -384,6 +449,11 @@ const Home = () => {
               {t.hero.desc}
             </motion.p>
             <motion.div variants={fadeUp} className="hero-buttons" style={{ flexWrap: 'wrap' }}>
+              <Magnetic>
+                <button className="btn btn-primary" onClick={() => setIsRecruiterModalOpen(true)}>
+                  <FaBriefcase size={18} /> Recruiter View
+                </button>
+              </Magnetic>
               <Magnetic>
                 <button className="btn btn-secondary" onClick={() => scrollTo('projects')}>
                   {t.hero.viewWork} <FaChevronRight size={20} />
@@ -932,6 +1002,12 @@ const Home = () => {
       {selectedProject && (
         <ProjectModal project={selectedProject} onClose={() => setSelectedProject(null)} />
       )}
+
+      {/* Recruiter Executive Summary Modal */}
+      <RecruiterModal
+        isOpen={isRecruiterModalOpen}
+        onClose={() => setIsRecruiterModalOpen(false)}
+      />
     </>
   );
 };
