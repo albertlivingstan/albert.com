@@ -136,7 +136,7 @@ const Home = () => {
     return /^[+]?[0-9]{10,15}$/.test(cleaned);
   };
 
-  const handleContactSubmit = async (e) => {
+  const handleContactSubmit = (e) => {
     if (e && e.preventDefault) e.preventDefault();
     let newErrors = {};
     if (!formData.name.trim()) newErrors.name = "Name is required.";
@@ -156,64 +156,57 @@ const Home = () => {
 
     setErrors({});
     const timestamp = new Date().toLocaleString();
-    const contactPayload = {
-      name: formData.name,
-      email: formData.email,
-      phone: formData.phone || 'Not Provided',
-      message: formData.message,
+    const name = formData.name;
+    const email = formData.email;
+    const phone = formData.phone || 'Not Provided';
+    const message = formData.message;
+
+    // 1. Save to Firebase Firestore database asynchronously
+    addDoc(collection(db, "contacts"), {
+      name,
+      email,
+      phone,
+      message,
       createdAt: serverTimestamp(),
       dateFormatted: timestamp
-    };
+    }).catch((dbErr) => console.warn("Firestore contact save note:", dbErr));
 
-    // 1. Save to Firebase Firestore database in real-time
-    try {
-      await addDoc(collection(db, "contacts"), contactPayload);
-    } catch (dbErr) {
-      console.warn("Firestore contact save note:", dbErr);
-    }
+    // 2. Dispatch direct Web Contact API HTTP request to albertlivingstan73@gmail.com
+    fetch("https://formsubmit.co/ajax/albertlivingstan73@gmail.com", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      body: JSON.stringify({
+        _subject: `📩 Portfolio Message from ${name}`,
+        name,
+        email,
+        phone,
+        message,
+        _template: "table"
+      })
+    }).catch((err) => console.warn("HTTP email API status:", err));
 
-    // 2. Dispatch direct Web Contact API HTTP request directly to albertlivingstan73@gmail.com
-    try {
-      fetch("https://formsubmit.co/ajax/albertlivingstan73@gmail.com", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Accept": "application/json"
-        },
-        body: JSON.stringify({
-          _subject: `📩 Portfolio Message from ${formData.name}`,
-          name: formData.name,
-          email: formData.email,
-          phone: formData.phone || 'Not Provided',
-          message: formData.message,
-          _template: "table"
-        })
-      }).catch((err) => console.warn("HTTP email API status:", err));
-    } catch (apiErr) {
-      console.warn("API request status:", apiErr);
-    }
-
-    // 3. Direct WhatsApp Delivery to +91 6382357454
+    // 3. Direct WhatsApp Delivery to +91 6382357454 (SYNCHRONOUS TO BYPASS BROWSER POPUP BLOCKER)
     const waText = `*📩 NEW PORTFOLIO CONTACT MESSAGE*
 
 *👤 Sender Details:*
-• *Name:* ${formData.name}
-• *Email:* ${formData.email}
-• *Phone:* ${formData.phone || 'Not Provided'}
+• *Name:* ${name}
+• *Email:* ${email}
+• *Phone:* ${phone}
 • *Date:* ${timestamp}
 
 *💬 Message Content:*
-${formData.message}
+${message}
 
 ---
 _Sent via Albert Livingstan G's Portfolio Contact Room_`;
 
     const waUrl = `https://wa.me/916382357454?text=${encodeURIComponent(waText)}`;
 
-    // Open WhatsApp directly after paper plane flight launch animation
-    setTimeout(() => {
-      window.open(waUrl, '_blank') || (window.location.href = waUrl);
-    }, 700);
+    // Instantly open WhatsApp link so mobile & desktop browsers never block the popup!
+    window.location.href = waUrl;
 
     setFormData({ name: '', email: '', phone: '', message: '' });
     return true; // Triggers paper plane launch flight animation
