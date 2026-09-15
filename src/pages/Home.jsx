@@ -193,32 +193,27 @@ const Home = () => {
       console.warn("API request status:", apiErr);
     }
 
-    // 3. Structured Mailto fallback
-    const formattedBody = `==================================================
-📩 NEW PORTFOLIO CONTACT MESSAGE
-==================================================
+    // 3. Direct WhatsApp Delivery to +91 6382357454
+    const waText = `*📩 NEW PORTFOLIO CONTACT MESSAGE*
 
-👤 SENDER DETAILS:
---------------------------------------------------
-• Name:  ${formData.name}
-• Email: ${formData.email}
-• Phone: ${formData.phone || 'Not Provided'}
-• Date:  ${timestamp}
+*👤 Sender Details:*
+• *Name:* ${formData.name}
+• *Email:* ${formData.email}
+• *Phone:* ${formData.phone || 'Not Provided'}
+• *Date:* ${timestamp}
 
-💬 MESSAGE CONTENT:
---------------------------------------------------
+*💬 Message Content:*
 ${formData.message}
 
-==================================================
-Sent via Albert Livingstan G's Portfolio Contact Room
-==================================================`;
+---
+_Sent via Albert Livingstan G's Portfolio Contact Room_`;
 
-    const subject = encodeURIComponent(`Portfolio Contact from ${formData.name}`);
-    const body = encodeURIComponent(formattedBody);
+    const waUrl = `https://wa.me/916382357454?text=${encodeURIComponent(waText)}`;
 
+    // Open WhatsApp directly after paper plane flight launch animation
     setTimeout(() => {
-      window.location.href = `mailto:albertlivingstan73@gmail.com?subject=${subject}&body=${body}`;
-    }, 800);
+      window.open(waUrl, '_blank') || (window.location.href = waUrl);
+    }, 700);
 
     setFormData({ name: '', email: '', phone: '', message: '' });
     return true; // Triggers paper plane launch flight animation
