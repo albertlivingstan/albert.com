@@ -14,7 +14,12 @@ import GlowCard from '../components/GlowCard';
 import ScrollReveal from '../components/ScrollReveal';
 import AnimatedCounter from '../components/AnimatedCounter';
 import { projectsData, certificates } from '../data';
+import DownloadButton from '../components/DownloadButton';
+import ContactRoom from '../components/ContactRoom';
+import SendButton from '../components/SendButton';
 import { useLanguage } from '../context/LanguageContext';
+import { db } from '../firebase';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 
 const fadeUp = {
   hidden: { opacity: 0, y: 60, scale: 0.95 },
@@ -131,8 +136,8 @@ const Home = () => {
     return /^[+]?[0-9]{10,15}$/.test(cleaned);
   };
 
-  const handleContactSubmit = (e) => {
-    e.preventDefault();
+  const handleContactSubmit = async (e) => {
+    if (e && e.preventDefault) e.preventDefault();
     let newErrors = {};
     if (!formData.name.trim()) newErrors.name = "Name is required.";
 
@@ -142,37 +147,99 @@ const Home = () => {
       newErrors.email = "Please enter a valid email address.";
     }
 
-    if (!formData.phone.trim()) {
-      newErrors.phone = "Phone number is required.";
-    } else if (!validatePhone(formData.phone)) {
-      newErrors.phone = "Please enter a valid phone number (at least 10 digits).";
-    }
-
     if (!formData.message.trim()) newErrors.message = "Message is required.";
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
-      return;
+      return false; // Triggers plane crash animation
     }
 
     setErrors({});
+    const timestamp = new Date().toLocaleString();
+    const contactPayload = {
+      name: formData.name,
+      email: formData.email,
+      phone: formData.phone || 'Not Provided',
+      message: formData.message,
+      createdAt: serverTimestamp(),
+      dateFormatted: timestamp
+    };
+
+    // 1. Save to Firebase Firestore database in real-time
+    try {
+      await addDoc(collection(db, "contacts"), contactPayload);
+    } catch (dbErr) {
+      console.warn("Firestore contact save note:", dbErr);
+    }
+
+    // 2. Dispatch direct Web Contact API HTTP request directly to albertlivingstan73@gmail.com
+    try {
+      fetch("https://formsubmit.co/ajax/albertlivingstan73@gmail.com", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify({
+          _subject: `📩 Portfolio Message from ${formData.name}`,
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone || 'Not Provided',
+          message: formData.message,
+          _template: "table"
+        })
+      }).catch((err) => console.warn("HTTP email API status:", err));
+    } catch (apiErr) {
+      console.warn("API request status:", apiErr);
+    }
+
+    // 3. Structured Mailto fallback
+    const formattedBody = `==================================================
+📩 NEW PORTFOLIO CONTACT MESSAGE
+==================================================
+
+👤 SENDER DETAILS:
+--------------------------------------------------
+• Name:  ${formData.name}
+• Email: ${formData.email}
+• Phone: ${formData.phone || 'Not Provided'}
+• Date:  ${timestamp}
+
+💬 MESSAGE CONTENT:
+--------------------------------------------------
+${formData.message}
+
+==================================================
+Sent via Albert Livingstan G's Portfolio Contact Room
+==================================================`;
+
     const subject = encodeURIComponent(`Portfolio Contact from ${formData.name}`);
-    const body = encodeURIComponent(`Name: ${formData.name}\nEmail: ${formData.email}\nPhone: ${formData.phone}\n\nMessage:\n${formData.message}`);
-    window.location.href = `mailto:albertlivingstan73@gmail.com?subject=${subject}&body=${body}`;
+    const body = encodeURIComponent(formattedBody);
+
+    setTimeout(() => {
+      window.location.href = `mailto:albertlivingstan73@gmail.com?subject=${subject}&body=${body}`;
+    }, 800);
+
     setFormData({ name: '', email: '', phone: '', message: '' });
+    return true; // Triggers paper plane launch flight animation
   };
 
+  const [hasRecError, setHasRecError] = useState(false);
+
   const handleRecSubmit = (e) => {
-    e.preventDefault();
+    if (e && e.preventDefault) e.preventDefault();
     let errors = {};
     if (!recFormData.name.trim()) errors.name = "Name is required.";
     if (!recFormData.message.trim()) errors.message = "Message is required.";
 
     if (Object.keys(errors).length > 0) {
       setRecErrors(errors);
-      return;
+      setHasRecError(true);
+      setTimeout(() => setHasRecError(false), 2600);
+      return false; // Triggers plane crash animation
     }
 
+    setHasRecError(false);
     setRecommendations([...recommendations, {
       id: Date.now(),
       name: recFormData.name,
@@ -180,7 +247,7 @@ const Home = () => {
     }]);
     setRecFormData({ name: '', message: '' });
     setRecErrors({});
-    alert("Recommendation added successfully!");
+    return true; // Triggers smooth plane takeoff animation
   };
 
   // Typing Effect State
@@ -465,9 +532,11 @@ const Home = () => {
                 </button>
               </Magnetic>
               <Magnetic>
-                <a href="public/Albert_Livingstan_G_Resume.pdf" download="Albert_Livingstan_G_Resume.pdf" className="btn btn-outline" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', textDecoration: 'none' }}>
-                  {t.hero.resume} <FaDownload size={18} />
-                </a>
+                <DownloadButton
+                  label={t.hero.resume}
+                  fileUrl="/Albert_Livingstan_G_Resume.pdf"
+                  fileName="Albert_Livingstan_G_Resume.pdf"
+                />
               </Magnetic>
             </motion.div>
           </motion.div>
@@ -911,91 +980,41 @@ const Home = () => {
                 {recErrors.message && <span style={{ color: '#ef4444', fontSize: '0.8rem', marginLeft: '0.5rem' }}>{recErrors.message}</span>}
               </div>
 
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+              <SendButton
+                label={t.recommendations.submitButton}
                 type="submit"
-                className="btn btn-primary"
+                isError={hasRecError}
+                errorMessage="Please enter name & message! 😢"
+                onClick={handleRecSubmit}
                 style={{ width: 'fit-content' }}
-              >
-                {t.recommendations.submitButton}
-              </motion.button>
+              />
             </form>
           </motion.div>
         </motion.div>
       </section>
 
-      {/* Footer / Contact */}
-      <footer id="contact" className="footer">
-        <ScrollReveal style={{ marginBottom: '2rem' }}>
-          <h2 style={{ fontSize: '2.5rem', marginBottom: '1rem', color: 'white', fontFamily: "'Outfit', sans-serif" }}>{t.contact.title} <span style={{ color: 'var(--accent-color)' }}>{t.contact.titleSpan}</span></h2>
-          <p style={{ maxWidth: '500px', margin: '0 auto', marginBottom: '3rem', color: 'var(--text-secondary)' }}>{t.contact.desc}</p>
-
-          {/* Contact Form */}
-          <GlowCard className="glass" style={{ maxWidth: '500px', margin: '0 auto', padding: '2rem', borderRadius: '24px' }}>
-            <form onSubmit={handleContactSubmit} className="contact-form" style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem', margin: 0 }}>
-              <div style={{ width: '100%', textAlign: 'left' }}>
-                <input
-                  type="text"
-                  placeholder={t.contact.namePlaceholder}
-                  value={formData.name}
-                  onChange={(e) => { setFormData({ ...formData, name: e.target.value }); if (errors.name) setErrors({ ...errors, name: null }); }}
-                  className={`contact-input ${errors.name ? 'error' : ''}`}
-                />
-                {errors.name && <span style={{ color: '#ef4444', fontSize: '0.8rem', marginLeft: '0.5rem' }}>{errors.name}</span>}
-              </div>
-
-              <div style={{ width: '100%', textAlign: 'left' }}>
-                <input
-                  type="email"
-                  placeholder={t.contact.emailPlaceholder}
-                  value={formData.email}
-                  onChange={(e) => { setFormData({ ...formData, email: e.target.value }); if (errors.email) setErrors({ ...errors, email: null }); }}
-                  className={`contact-input ${errors.email ? 'error' : ''}`}
-                />
-                {errors.email && <span style={{ color: '#ef4444', fontSize: '0.8rem', marginLeft: '0.5rem' }}>{errors.email}</span>}
-              </div>
-
-              <div style={{ width: '100%', textAlign: 'left' }}>
-                <input
-                  type="tel"
-                  placeholder={t.contact.phonePlaceholder}
-                  value={formData.phone}
-                  onChange={(e) => { setFormData({ ...formData, phone: e.target.value }); if (errors.phone) setErrors({ ...errors, phone: null }); }}
-                  className={`contact-input ${errors.phone ? 'error' : ''}`}
-                />
-                {errors.phone && <span style={{ color: '#ef4444', fontSize: '0.8rem', marginLeft: '0.5rem' }}>{errors.phone}</span>}
-              </div>
-
-              <div style={{ width: '100%', textAlign: 'left' }}>
-                <textarea
-                  placeholder={t.contact.messagePlaceholder}
-                  value={formData.message}
-                  onChange={(e) => { setFormData({ ...formData, message: e.target.value }); if (errors.message) setErrors({ ...errors, message: null }); }}
-                  className={`contact-textarea ${errors.message ? 'error' : ''}`}
-                  rows="4"
-                ></textarea>
-                {errors.message && <span style={{ color: '#ef4444', fontSize: '0.8rem', marginLeft: '0.5rem' }}>{errors.message}</span>}
-              </div>
-
-              <Magnetic>
-                <button
-                  type="submit"
-                  className="btn btn-primary"
-                  style={{ width: '100%', justifyContent: 'center' }}
-                >
-                  {t.contact.submitButton}
-                </button>
-              </Magnetic>
-            </form>
-          </GlowCard>
+      {/* Contact Section */}
+      <section id="contact" className="section" style={{ paddingBottom: '2rem', overflow: 'visible' }}>
+        <ScrollReveal style={{ marginBottom: '1rem' }}>
+          <ContactRoom
+            t={t}
+            formData={formData}
+            setFormData={setFormData}
+            errors={errors}
+            setErrors={setErrors}
+            onSubmit={handleContactSubmit}
+          />
         </ScrollReveal>
+      </section>
+
+      {/* Footer */}
+      <footer className="footer">
         <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer} className="social-links">
           <motion.a variants={fadeUp} whileHover={{ y: -5, backgroundColor: 'var(--accent-color)', color: '#000' }} href="mailto:albertlivingstan73@gmail.com" className="social-link" title="Email"><FaEnvelope size={20} /></motion.a>
           <motion.a variants={fadeUp} whileHover={{ y: -5, backgroundColor: 'var(--accent-color)', color: '#000' }} href="https://github.com/albertlivingstan" target="_blank" rel="noreferrer" className="social-link" title="GitHub"><FaGithub size={20} /></motion.a>
           <motion.a variants={fadeUp} whileHover={{ y: -5, backgroundColor: 'var(--accent-color)', color: '#000' }} href="https://www.linkedin.com/in/albert-livingstan-g" target="_blank" rel="noreferrer" className="social-link" title="LinkedIn"><FaLinkedin size={20} /></motion.a>
         </motion.div>
-        <p>© {new Date().getFullYear()} Albert Livingstan G </p>
+        <p>© {new Date().getFullYear()} Albert Livingstan G</p>
       </footer>
 
       {/* Project Details Modal */}

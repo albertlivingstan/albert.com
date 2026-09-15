@@ -5,6 +5,7 @@ import {
   FaCheckCircle, FaAward, FaCode, FaRocket, FaCopy, FaCheck, FaPhoneAlt
 } from 'react-icons/fa';
 import SparkleBurst from './SparkleBurst';
+import DownloadButton from './DownloadButton';
 
 const RecruiterModal = ({ isOpen, onClose }) => {
   const [copied, setCopied] = useState(false);
@@ -204,21 +205,13 @@ const RecruiterModal = ({ isOpen, onClose }) => {
               </h4>
 
               <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-                <a
-                  href="/resume.pdf"
-                  download="Albert_Livingstan_Resume.pdf"
+                <DownloadButton
+                  label="Download Resume (PDF)"
+                  fileUrl="/Albert_Livingstan_G_Resume.pdf"
+                  fileName="Albert_Livingstan_G_Resume.pdf"
                   onClick={handleDownload}
-                  style={{ textDecoration: 'none', flex: 1, minWidth: '200px' }}
-                >
-                  <motion.button
-                    whileHover={{ scale: 1.03 }}
-                    whileTap={{ scale: 0.97 }}
-                    className="btn btn-primary"
-                    style={{ width: '100%', justifyContent: 'center', padding: '0.9rem' }}
-                  >
-                    <FaDownload /> Download Resume (PDF)
-                  </motion.button>
-                </a>
+                  style={{ flex: 1, minWidth: '200px' }}
+                />
 
                 <motion.button
                   whileHover={{ scale: 1.03 }}

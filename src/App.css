@@ -652,10 +652,11 @@
 /* Footer */
 .footer {
   text-align: center;
-  padding: 3rem 5%;
+  padding: 2.5rem 5% 2rem;
   border-top: 1px solid var(--card-border);
-  margin-top: 4rem;
+  margin-top: 2rem;
   color: var(--text-secondary);
+  overflow: hidden;
 }
 
 .social-links {
